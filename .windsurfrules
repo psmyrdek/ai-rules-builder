@@ -19,6 +19,7 @@ Key business requirements include:
 - React 18.3
 - Tailwind 4
 - Zustand
+- Lucide React (icons)
 
 ## Directory Structure
 
@@ -47,3 +48,5 @@ When modifying the directory structure, always update this section.
 - Always use Tailwind 4 to add styles to components (both React and Astro)
 - Always apply styles inspired by dark mode as default theme
 - UI should be influenced by Fluent 2.0 design system
+- Use lucide-react instead of inline svg
+- Use 'size-\*' class in Tailwind when height and width are the same
