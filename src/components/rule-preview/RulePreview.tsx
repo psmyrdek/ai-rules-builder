@@ -3,6 +3,7 @@ import { useTechStackStore } from '../../store/techStackStore';
 import { useProjectStore } from '../../store/projectStore';
 import RulePreviewControls from './RulePreviewControls';
 import { RulesBuilderService } from '../../services/rulesBuilderService';
+import { styleMarkdownContent } from '../../utils/markdownStyling';
 
 export const RulePreview: React.FC = () => {
   const { selectedLibraries } = useTechStackStore();
@@ -26,7 +27,7 @@ export const RulePreview: React.FC = () => {
 
       <div className="flex-1 overflow-y-auto bg-gray-900 rounded-lg p-4 mt-4">
         <pre className="whitespace-pre-wrap text-gray-300 font-mono text-sm">
-          {markdownContent}
+          {styleMarkdownContent(markdownContent)}
         </pre>
       </div>
     </div>

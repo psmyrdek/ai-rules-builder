@@ -68,7 +68,7 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
   };
 
   return (
-    <div className="mt-4 p-4 bg-gray-800 rounded-lg">
+    <div className="p-4 bg-gray-800 rounded-lg">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-400">Export for:</span>

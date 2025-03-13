@@ -12,8 +12,8 @@ interface ProjectState {
 
 export const useProjectStore = create<ProjectState>((set) => ({
   // Initial state
-  projectName: '[project-name]',
-  projectDescription: '[project-description]',
+  projectName: '{{project-name}}',
+  projectDescription: '{{project-description}}',
 
   // Actions
   setProjectName: (name: string) => set({ projectName: name }),
