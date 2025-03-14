@@ -46,7 +46,7 @@ export class RulesBuilderService {
 
     // Generate content for each layer and its stacks
     Object.entries(stacksByLayer).forEach(([layer, stacks]) => {
-      markdown += `## Guidelines for ${layer}\n\n`;
+      markdown += `## ${layer}\n\n`;
 
       stacks.forEach((stack) => {
         markdown += `### Guidelines for ${stack}\n\n`;
