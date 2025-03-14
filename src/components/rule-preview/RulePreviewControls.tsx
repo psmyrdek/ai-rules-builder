@@ -125,7 +125,7 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
-              GitHub Copilot
+              Copilot
             </button>
             <button
               onClick={() => setSelectedEnvironment('cursor')}
@@ -170,7 +170,7 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
               showCopiedMessage
                 ? 'bg-green-700 text-white'
                 : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            } rounded-md flex items-center transition-colors duration-200`}
+            } rounded-md flex items-center transition-colors duration-200 text-sm`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -195,7 +195,7 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
           </button>
           <button
             onClick={handleDownload}
-            className="px-3 py-1 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 flex items-center"
+            className="px-3 py-1 bg-indigo-700 text-white rounded-md hover:bg-indigo-600 flex items-center text-sm"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +213,7 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
           </button>
           <button
             onClick={handleOpenDocs}
-            className="px-3 py-1 bg-purple-700 text-white rounded-md hover:bg-purple-600 flex items-center"
+            className="px-3 py-1 bg-purple-700 text-white rounded-md hover:bg-purple-600 flex items-center text-sm"
           >
             <ExternalLink className="h-4 w-4 mr-1" />
             Docs
