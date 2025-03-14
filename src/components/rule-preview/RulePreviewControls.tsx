@@ -24,6 +24,8 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
         return '.windsurfrules';
       case 'aider':
         return 'CONVENTIONS.md';
+      case 'junie':
+        return '.junie/guidelines.md';
     }
   };
 
@@ -38,6 +40,8 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
         return 'https://docs.codeium.com/windsurf/memories#windsurfrules';
       case 'aider':
         return 'https://aider.chat/docs/usage/conventions.html';
+      case 'junie':
+        return 'https://www.jetbrains.com/guide/ai/article/junie/intellij-idea/';
     }
   };
 
@@ -156,6 +160,16 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
               }`}
             >
               Aider
+            </button>
+            <button
+              onClick={() => setSelectedEnvironment('junie')}
+              className={`px-3 py-1 text-xs rounded-md ${
+                selectedEnvironment === 'junie'
+                  ? 'bg-indigo-700 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              Junie
             </button>
           </div>
         </div>

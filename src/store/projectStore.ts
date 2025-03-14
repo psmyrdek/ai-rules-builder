@@ -2,7 +2,12 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 // Define the AI environment types for easier maintenance
-export type AIEnvironment = 'github' | 'cursor' | 'windsurf' | 'aider';
+export type AIEnvironment =
+  | 'github'
+  | 'cursor'
+  | 'windsurf'
+  | 'aider'
+  | 'junie';
 
 interface ProjectState {
   // Project metadata
