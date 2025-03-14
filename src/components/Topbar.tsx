@@ -5,7 +5,7 @@ interface TopbarProps {
   title?: string;
 }
 
-export default function Topbar({ title = 'AI Rules Builder' }: TopbarProps) {
+export default function Topbar({ title = '10xRules.ai' }: TopbarProps) {
   return (
     <header className="sticky top-0 z-10 w-full bg-gray-900 border-b border-gray-800 p-4 px-6 shadow-md">
       <div className="flex justify-between items-center">
