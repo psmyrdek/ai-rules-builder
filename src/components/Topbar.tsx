@@ -1,4 +1,5 @@
 import { WandSparkles } from 'lucide-react';
+import DependencyUploader from './rule-parser/DependencyUploader';
 
 interface TopbarProps {
   title?: string;
@@ -14,6 +15,8 @@ export default function Topbar({ title = 'AI Rules Builder' }: TopbarProps) {
             {title}
           </h1>
         </div>
+
+        <DependencyUploader />
       </div>
     </header>
   );
