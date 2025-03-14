@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useProjectStore } from '../../store/projectStore';
 import { ExternalLink } from 'lucide-react';
+import { useProjectStore } from '../../store/projectStore';
 
 interface RulePreviewControlsProps {
   markdown: string;
@@ -9,33 +9,35 @@ interface RulePreviewControlsProps {
 export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
   markdown,
 }) => {
-  const { projectName } = useProjectStore();
-  const [selectedFormat, setSelectedFormat] = useState<
-    'github' | 'cursor' | 'windsurf'
-  >('github');
+  const { selectedEnvironment, setSelectedEnvironment, isHydrated } =
+    useProjectStore();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
   // Get the appropriate file path based on the selected format
   const getFilePath = (): string => {
-    switch (selectedFormat) {
+    switch (selectedEnvironment) {
       case 'github':
         return '.github/copilot-instructions.md';
       case 'cursor':
         return '.cursor/rules.md';
       case 'windsurf':
         return '.windsurfrules';
+      case 'aider':
+        return 'CONVENTIONS.md';
     }
   };
 
   // Get the documentation URL based on the selected format
   const getDocsUrl = (): string => {
-    switch (selectedFormat) {
+    switch (selectedEnvironment) {
       case 'github':
         return 'https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot';
       case 'cursor':
         return 'https://docs.cursor.com/context/rules-for-ai';
       case 'windsurf':
         return 'https://docs.codeium.com/windsurf/memories#windsurfrules';
+      case 'aider':
+        return 'https://aider.chat/docs/usage/conventions.html';
     }
   };
 
@@ -85,15 +87,40 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
     document.body.removeChild(element);
   };
 
+  // If state hasn't been hydrated from storage yet, don't render the selector
+  // This prevents the "blinking" effect when loading persisted state
+  if (!isHydrated) {
+    return (
+      <div className="p-2 bg-gray-800 rounded-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0 opacity-0">
+          {/* Invisible placeholder content with the same structure to prevent layout shift */}
+          <div className="flex items-center space-x-2">
+            <div className="flex space-x-1">
+              <div className="px-3 py-1 text-xs rounded-md bg-gray-700"></div>
+              <div className="px-3 py-1 text-xs rounded-md bg-gray-700"></div>
+              <div className="px-3 py-1 text-xs rounded-md bg-gray-700"></div>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
+            <div className="text-sm flex-1 sm:flex-none"></div>
+            <div className="px-3 py-1 rounded-md"></div>
+            <div className="px-3 py-1 rounded-md"></div>
+            <div className="px-3 py-1 rounded-md"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-2 bg-gray-800 rounded-lg">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
         <div className="flex items-center space-x-2">
           <div className="flex space-x-1">
             <button
-              onClick={() => setSelectedFormat('github')}
+              onClick={() => setSelectedEnvironment('github')}
               className={`px-3 py-1 text-xs rounded-md ${
-                selectedFormat === 'github'
+                selectedEnvironment === 'github'
                   ? 'bg-indigo-700 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
@@ -101,9 +128,9 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
               GitHub Copilot
             </button>
             <button
-              onClick={() => setSelectedFormat('cursor')}
+              onClick={() => setSelectedEnvironment('cursor')}
               className={`px-3 py-1 text-xs rounded-md ${
-                selectedFormat === 'cursor'
+                selectedEnvironment === 'cursor'
                   ? 'bg-indigo-700 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
@@ -111,14 +138,24 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
               Cursor
             </button>
             <button
-              onClick={() => setSelectedFormat('windsurf')}
+              onClick={() => setSelectedEnvironment('windsurf')}
               className={`px-3 py-1 text-xs rounded-md ${
-                selectedFormat === 'windsurf'
+                selectedEnvironment === 'windsurf'
                   ? 'bg-indigo-700 text-white'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
               Windsurf
+            </button>
+            <button
+              onClick={() => setSelectedEnvironment('aider')}
+              className={`px-3 py-1 text-xs rounded-md ${
+                selectedEnvironment === 'aider'
+                  ? 'bg-indigo-700 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              Aider
             </button>
           </div>
         </div>
