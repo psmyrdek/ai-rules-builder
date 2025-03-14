@@ -40,7 +40,7 @@ export class RulesBuilderService {
     markdown += `${projectDescription}\n\n`;
 
     if (selectedLibraries.length === 0) {
-      markdown += `*No libraries selected. Please select libraries from the left panel.*`;
+      markdown += `> Select libraries from the left panel or drop dependency file here 👇`;
       return { markdown };
     }
 
