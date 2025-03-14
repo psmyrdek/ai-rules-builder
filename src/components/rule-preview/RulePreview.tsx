@@ -22,7 +22,7 @@ export const RulePreview: React.FC = () => {
   }, [selectedLibraries, projectName, projectDescription]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full pb-32 overflow-y-auto">
       <RulePreviewControls markdown={markdownContent} />
 
       <div className="flex-1 overflow-y-auto bg-gray-900 rounded-lg p-4 mt-4">

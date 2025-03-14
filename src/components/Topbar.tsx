@@ -6,7 +6,7 @@ interface TopbarProps {
 
 export default function Topbar({ title = 'AI Rules Builder' }: TopbarProps) {
   return (
-    <header className="w-full bg-gray-900 border-b border-gray-800 p-4 shadow-md">
+    <header className="sticky top-0 z-10 w-full bg-gray-900 border-b border-gray-800 p-4 shadow-md">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <WandSparkles className="size-4 mr-2 text-purple-500" />

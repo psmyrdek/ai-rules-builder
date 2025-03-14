@@ -2,7 +2,7 @@ import { Bot, Wrench, Rocket } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gray-900 text-gray-400 p-4 border-t border-gray-800">
+    <footer className="sticky bottom-0 z-10 w-full bg-gray-900 text-gray-400 p-4 border-t border-gray-800">
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <div className="flex items-center space-x-2 mb-2 sm:mb-0">
           <span className="text-sm">
