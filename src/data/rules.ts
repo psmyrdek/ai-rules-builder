@@ -5,6 +5,7 @@ import {
   databaseRules,
   infrastructureRules,
   testingRules,
+  codingRules,
   getRulesForLibrary as getLibraryRules,
   getRulesForLibraries as getLibrariesRules,
   type LibraryRulesMap,
@@ -20,6 +21,7 @@ export const libraryRules: Record<Library, string[]> = {
   ...databaseRules,
   ...infrastructureRules,
   ...testingRules,
+  ...codingRules,
 } as Record<Library, string[]>;
 
 /**
@@ -41,14 +43,14 @@ export const getRulesForLibraries = (
 ): Record<Library, string[]> => {
   // Convert the partial record to a full record by filtering only requested libraries
   const partialResult = getLibrariesRules(libraryRules, libraries);
-  
+
   // Create a new record with only the requested libraries
   const result: Record<Library, string[]> = {} as Record<Library, string[]>;
-  
+
   // Only include libraries that were requested
   libraries.forEach((library) => {
     result[library] = partialResult[library] || [];
   });
-  
+
   return result;
 };

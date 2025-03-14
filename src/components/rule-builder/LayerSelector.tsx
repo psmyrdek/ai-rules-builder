@@ -38,7 +38,7 @@ export const LayerSelector: React.FC<LayerSelectorProps> = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-white mb-4">Select layer</h2>
+      <h2 className="text-xl font-semibold text-white mb-4">Select category</h2>
       <div className="grid grid-cols-1 gap-3">
         {layers.map((layer) => (
           <button
@@ -53,7 +53,7 @@ export const LayerSelector: React.FC<LayerSelectorProps> = ({
             <div className="flex items-center justify-between">
               <span>{layer}</span>
               <span className="text-xs bg-gray-900 px-2 py-1 rounded-full">
-                {getStacksByLayer(layer).length} stacks
+                {getStacksByLayer(layer).length} groups
               </span>
             </div>
           </button>

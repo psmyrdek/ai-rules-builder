@@ -55,7 +55,7 @@ export const StackSelector: React.FC<StackSelectorProps> = ({
             />
           </svg>
         </button>
-        <h2 className="text-xl font-semibold text-white">Select stacks</h2>
+        <h2 className="text-xl font-semibold text-white">Select rule group</h2>
       </div>
 
       <div className="grid grid-cols-1 gap-3">
@@ -72,7 +72,7 @@ export const StackSelector: React.FC<StackSelectorProps> = ({
             <div className="flex items-center justify-between">
               <span>{stack}</span>
               <span className="text-xs bg-gray-900 px-2 py-1 rounded-full">
-                {getLibrariesByStack(stack).length} libraries
+                {getLibrariesByStack(stack).length} tools
               </span>
             </div>
           </button>
