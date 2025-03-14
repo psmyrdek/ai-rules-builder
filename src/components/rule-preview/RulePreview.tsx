@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTechStackStore } from '../../store/techStackStore';
 import { useProjectStore } from '../../store/projectStore';
-import RulePreviewControls from './RulePreviewControls';
+import { RulePreviewTopbar } from './RulePreviewTopbar';
 import { RulesBuilderService } from '../../services/rulesBuilderService';
 import { styleMarkdownContent } from '../../utils/markdownStyling';
 
@@ -23,7 +23,7 @@ export const RulePreview: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full pb-32 overflow-y-auto">
-      <RulePreviewControls markdown={markdownContent} />
+      <RulePreviewTopbar markdown={markdownContent} />
 
       <div className="flex-1 overflow-y-auto bg-gray-900 rounded-lg p-4 mt-4">
         <pre className="whitespace-pre-wrap text-gray-300 font-mono text-sm">

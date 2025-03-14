@@ -1,2 +1,2 @@
 export { default as RulePreview } from './RulePreview';
-export { default as RulePreviewControls } from './RulePreviewControls';
+export { default as RulePreviewControls } from './RulePreviewTopbar';
