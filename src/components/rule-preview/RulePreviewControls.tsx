@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useProjectStore } from '../../store/projectStore';
+import { ExternalLink } from 'lucide-react';
 
 interface RulePreviewControlsProps {
   markdown: string;
@@ -24,6 +25,23 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
       case 'windsurf':
         return '.windsurfrules';
     }
+  };
+
+  // Get the documentation URL based on the selected format
+  const getDocsUrl = (): string => {
+    switch (selectedFormat) {
+      case 'github':
+        return 'https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot';
+      case 'cursor':
+        return 'https://docs.cursor.com/context/rules-for-ai';
+      case 'windsurf':
+        return 'https://docs.codeium.com/windsurf/memories#windsurfrules';
+    }
+  };
+
+  // Open the documentation URL in a new tab
+  const handleOpenDocs = () => {
+    window.open(getDocsUrl(), '_blank', 'noopener,noreferrer');
   };
 
   // Copy the markdown content to clipboard
@@ -68,10 +86,9 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
   };
 
   return (
-    <div className="p-4 bg-gray-800 rounded-lg">
+    <div className="p-2 bg-gray-800 rounded-lg">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
         <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-400">Export for:</span>
           <div className="flex space-x-1">
             <button
               onClick={() => setSelectedFormat('github')}
@@ -156,6 +173,13 @@ export const RulePreviewControls: React.FC<RulePreviewControlsProps> = ({
               />
             </svg>
             Download
+          </button>
+          <button
+            onClick={handleOpenDocs}
+            className="px-3 py-1 bg-purple-700 text-white rounded-md hover:bg-purple-600 flex items-center"
+          >
+            <ExternalLink className="h-4 w-4 mr-1" />
+            Docs
           </button>
         </div>
       </div>
