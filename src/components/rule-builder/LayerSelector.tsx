@@ -38,7 +38,7 @@ export const LayerSelector: React.FC<LayerSelectorProps> = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-white mb-4">Layer</h2>
+      <h2 className="text-xl font-semibold text-white mb-4">Select layer</h2>
       <div className="grid grid-cols-1 gap-3">
         {layers.map((layer) => (
           <button

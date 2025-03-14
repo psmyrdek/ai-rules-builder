@@ -17,7 +17,7 @@ export const RulePreview: React.FC = () => {
       projectDescription,
       selectedLibraries
     );
-    
+
     setMarkdownContent(markdown);
   }, [selectedLibraries, projectName, projectDescription]);
 
@@ -30,6 +30,9 @@ export const RulePreview: React.FC = () => {
           {styleMarkdownContent(markdownContent)}
         </pre>
       </div>
+      <p className="text-gray-600 mt-4">
+        Adjust these rules to match your project's specific needs.
+      </p>
     </div>
   );
 };

@@ -70,12 +70,6 @@ export const RuleBuilder: React.FC = () => {
 
   return (
     <div className="p-4 bg-gray-900 rounded-lg space-y-4">
-      {selectedLibraries.length > 0 && (
-        <div className="mt-2 text-sm text-gray-400">
-          {selectedLibraries.length} libraries selected
-        </div>
-      )}
-
       {renderCurrentView()}
     </div>
   );
