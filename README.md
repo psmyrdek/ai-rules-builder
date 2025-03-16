@@ -1,8 +1,8 @@
-# AI Rules Builder by 10xDevs
+# 10xRules.ai by 10xDevs
 
 ![](.docs/demo.png)
 
-👉 [AI Rules Builder](https://10xrules.ai)
+👉 [10xRules.ai](https://10xrules.ai)
 
 This is a web application that enables developers to quickly create so called "rules for AI" used by tools such as GitHub Copilot, Cursor and Windsurf, through an interactive, visual interface.
 
