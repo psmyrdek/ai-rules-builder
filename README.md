@@ -47,7 +47,17 @@ Send updates to:
 - `src/data/dictionaries.ts`
 - `src/data/rules/...`
 
-When contributing new rules, please follow the existing format in the corresponding files and ensure your rules are specific, actionable, and follow best practices.
+## How to Write Effective Rules
+
+When contributing new rules, please:
+
+- **Be specific:** "Use React.memo for expensive components" not "Optimize components"
+- **Make it actionable:** Provide clear guidance that can be immediately applied
+- **Include placeholders:** Use `{{placeholder_text}}` for project-specific values
+- **Follow conventions:** Match the style and structure of existing rules
+- **Focus on best practices:** Rules should represent industry standards, not personal preferences
+
+See examples in `src/data/rules/` directory for each technology stack.
 
 ---
 
