@@ -292,3 +292,15 @@ export const getLayersByLibrary = (library: Library): Layer[] => {
 
   return Array.from(layers);
 };
+
+// Helper function to get the total count of libraries in a layer
+export const getLibrariesCountByLayer = (layer: Layer): number => {
+  const stacks = getStacksByLayer(layer);
+  let totalLibraries = 0;
+  
+  stacks.forEach(stack => {
+    totalLibraries += getLibrariesByStack(stack).length;
+  });
+  
+  return totalLibraries;
+};

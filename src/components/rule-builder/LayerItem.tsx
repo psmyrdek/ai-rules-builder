@@ -1,14 +1,15 @@
+import { Package } from 'lucide-react';
 import React from 'react';
 import {
   Layer,
   Library,
   Stack,
+  getLibrariesCountByLayer,
   getStacksByLayer,
 } from '../../data/dictionaries';
 import type { LayerType } from '../../styles/theme';
 import { getLayerClasses } from '../../styles/theme';
 import {
-  Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
@@ -48,42 +49,33 @@ export const LayerItem: React.FC<LayerItemProps> = React.memo(
     getStackLayerType,
   }) => {
     const layerType = getLayerType(layer);
-    const containerClasses = getLayerClasses.container(layerType, hasSelected);
-    const openClasses = getLayerClasses.openState(layerType, isOpen);
+    const containerClasses = getLayerClasses.container(layerType, hasSelected, isOpen);
 
     return (
       <AccordionItem key={layer} value={layer}>
-        <div
-          className={`rounded-lg transition-all duration-150 ${containerClasses} ${openClasses}`}
-        >
+        <div className={`rounded-lg ${containerClasses}`}>
           <AccordionTrigger
             onClick={() => toggleLayer(layer)}
             isOpen={isOpen}
-            className="font-medium"
+            className="font-medium text-white"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mr-2">
               <div className="flex gap-2 items-center">
                 <span className="font-medium text-white">{layer}</span>
-                {selectedCount > 0 && (
-                  <span
-                    className={`px-2 py-0.5 text-xs font-semibold ${getLayerClasses.badge(
-                      layerType
-                    )} rounded-full shadow-sm`}
-                  ></span>
-                )}
               </div>
               <span
-                className={`px-2 py-1 text-xs rounded-full ${getLayerClasses.badge(
+                className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 ${getLayerClasses.badge(
                   layerType
                 )}`}
               >
-                {selectedCount} / {getStacksByLayer(layer).length} groups
+                {selectedCount} / {getLibrariesCountByLayer(layer)}{' '}
+                <Package className="size-3" />
               </span>
             </div>
           </AccordionTrigger>
 
           <AccordionContent isOpen={isOpen}>
-            <Accordion type="multiple" className="mt-2 space-y-2">
+            <div className="grid gap-2">
               {getStacksByLayer(layer).map((stack) => (
                 <StackItem
                   key={stack}
@@ -97,7 +89,7 @@ export const LayerItem: React.FC<LayerItemProps> = React.memo(
                   layerType={getStackLayerType(stack)}
                 />
               ))}
-            </Accordion>
+            </div>
           </AccordionContent>
         </div>
       </AccordionItem>
