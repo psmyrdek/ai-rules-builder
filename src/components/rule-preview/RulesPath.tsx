@@ -10,7 +10,7 @@ export const RulesPath: React.FC = () => {
       case 'github':
         return '.github/copilot-instructions.md';
       case 'cursor':
-        return '.cursor/rules.md';
+        return '.cursorrules';
       case 'windsurf':
         return '.windsurfrules';
       case 'aider':
