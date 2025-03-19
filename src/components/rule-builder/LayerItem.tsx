@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from '../ui/Accordion';
 import { StackItem } from './StackItem';
+import type { LibraryType } from './hooks/useRuleBuilder';
 
 interface LayerItemProps {
   layer: Layer;
@@ -30,6 +31,9 @@ interface LayerItemProps {
   isLibrarySelected: (library: Library) => boolean;
   getLayerType: (layer: Layer) => LayerType;
   getStackLayerType: (stack: Stack) => LayerType;
+  stackContainsSearchMatch: (stack: Stack) => boolean;
+  getFilteredLibrariesByStack: (stack: Stack) => LibraryType[];
+  searchActive: boolean;
 }
 
 export const LayerItem: React.FC<LayerItemProps> = React.memo(
@@ -47,17 +51,24 @@ export const LayerItem: React.FC<LayerItemProps> = React.memo(
     isLibrarySelected,
     getLayerType,
     getStackLayerType,
+    stackContainsSearchMatch,
+    getFilteredLibrariesByStack,
+    searchActive,
   }) => {
     const layerType = getLayerType(layer);
-    const containerClasses = getLayerClasses.container(layerType, hasSelected, isOpen);
+    const containerClasses = getLayerClasses.container(
+      layerType,
+      hasSelected,
+      isOpen
+    );
 
     return (
       <AccordionItem key={layer} value={layer}>
-        <div className={`rounded-lg ${containerClasses}`}>
+        <div className={`h-full rounded-lg ${containerClasses}`}>
           <AccordionTrigger
             onClick={() => toggleLayer(layer)}
             isOpen={isOpen}
-            className="font-medium text-white"
+            className={`font-medium text-white ${getLayerClasses.focusRing(layerType)}`}
           >
             <div className="flex justify-between items-center mr-2">
               <div className="flex gap-2 items-center">
@@ -67,6 +78,7 @@ export const LayerItem: React.FC<LayerItemProps> = React.memo(
                 className={`px-2 py-1 text-xs rounded-full flex items-center gap-1 ${getLayerClasses.badge(
                   layerType
                 )}`}
+                aria-label={`${selectedCount} of ${getLibrariesCountByLayer(layer)} libraries selected`}
               >
                 {selectedCount} / {getLibrariesCountByLayer(layer)}{' '}
                 <Package className="size-3" />
@@ -75,20 +87,36 @@ export const LayerItem: React.FC<LayerItemProps> = React.memo(
           </AccordionTrigger>
 
           <AccordionContent isOpen={isOpen}>
-            <div className="grid gap-2">
-              {getStacksByLayer(layer).map((stack) => (
-                <StackItem
-                  key={stack}
-                  stack={stack}
-                  isOpen={isStackOpen(stack)}
-                  hasSelected={hasStackSelectedLibraries(stack)}
-                  selectedCount={getSelectedLibrariesCount(stack)}
-                  toggleStack={toggleStack}
-                  handleLibraryToggle={handleLibraryToggle}
-                  isLibrarySelected={isLibrarySelected}
-                  layerType={getStackLayerType(stack)}
-                />
-              ))}
+            <div 
+              className="grid gap-2"
+              role="group"
+              aria-label={`${layer} stacks`}
+            >
+              {getStacksByLayer(layer)
+                .filter(
+                  (stack) => !searchActive || stackContainsSearchMatch(stack)
+                )
+                .map((stack) => (
+                  <StackItem
+                    key={stack}
+                    stack={stack}
+                    isOpen={isStackOpen(stack)}
+                    hasSelected={hasStackSelectedLibraries(stack)}
+                    selectedCount={getSelectedLibrariesCount(stack)}
+                    toggleStack={toggleStack}
+                    handleLibraryToggle={handleLibraryToggle}
+                    isLibrarySelected={isLibrarySelected}
+                    layerType={getStackLayerType(stack)}
+                    isNested={true}
+                    filteredLibraries={
+                      searchActive
+                        ? getFilteredLibrariesByStack(stack).map(
+                            (lib) => lib as unknown as Library
+                          )
+                        : undefined
+                    }
+                  />
+                ))}
             </div>
           </AccordionContent>
         </div>

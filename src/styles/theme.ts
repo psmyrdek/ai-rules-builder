@@ -24,6 +24,25 @@ const layerColors: Record<LayerType, string> = {
   testing: 'yellow',
 };
 
+// Theme transition settings for consistent animations
+export const transitions = {
+  duration: {
+    fast: '150ms',
+    medium: '200ms',
+    slow: '300ms',
+  },
+  timing: {
+    default: 'ease-in-out',
+    bounce: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    smooth: 'ease',
+  },
+  delay: {
+    none: '0ms',
+    short: '50ms',
+    medium: '100ms',
+  },
+};
+
 // Ultra-simplified layer class generator
 export const getLayerClasses = {
   container: (
@@ -96,6 +115,10 @@ export const getLayerClasses = {
 
   selectedRuleBadge: (layerType: LayerType): string => {
     return `bg-${layerColors[layerType]}-400/20 text-white`;
+  },
+  
+  focusRing: (layerType: LayerType): string => {
+    return `focus:ring-${layerColors[layerType]}-500`;
   },
 };
 

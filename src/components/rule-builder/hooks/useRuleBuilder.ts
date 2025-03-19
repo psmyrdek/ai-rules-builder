@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Layer,
   Library,
@@ -25,6 +25,44 @@ export const useRuleBuilder = () => {
   const [openLayers, setOpenLayers] = useState<Set<string>>(new Set());
   const [openStacks, setOpenStacks] = useState<Set<string>>(new Set());
 
+  // Save the state before search for restoration when search is cleared
+  const [preSearchOpenLayers, setPreSearchOpenLayers] = useState<Set<string>>(
+    new Set()
+  );
+  const [preSearchOpenStacks, setPreSearchOpenStacks] = useState<Set<string>>(
+    new Set()
+  );
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>('');
+  const [isSearchExpanded, setIsSearchExpanded] = useState<boolean>(false);
+  const [lastSearchQuery, setLastSearchQuery] = useState<string>('');
+
+  // Debounce search query changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300); // 300ms debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Detect search query change for saving pre-search state
+  useEffect(() => {
+    // Only save pre-search state when transitioning from no search to search
+    if (
+      (!lastSearchQuery || lastSearchQuery.length < 2) &&
+      searchQuery.length >= 2
+    ) {
+      // Clone the sets to ensure we have independent copies
+      setPreSearchOpenLayers(new Set([...openLayers]));
+      setPreSearchOpenStacks(new Set([...openStacks]));
+    }
+
+    setLastSearchQuery(searchQuery);
+  }, [searchQuery, openLayers, openStacks, lastSearchQuery]);
+
   // Get all available layers
   const layers = useMemo(() => Object.values(Layer), []);
 
@@ -34,18 +72,21 @@ export const useRuleBuilder = () => {
   }, []);
 
   // Function to get layer type for a stack based on its layer
-  const getStackLayerType = useCallback((stack: Stack): LayerType => {
-    // Find the layer this stack belongs to
-    const layer = layers.find(l => getStacksByLayer(l).includes(stack));
-    return layer ? getLayerType(layer) : 'craftsmanship';
-  }, [layers, getLayerType]);
+  const getStackLayerType = useCallback(
+    (stack: Stack): LayerType => {
+      // Find the layer this stack belongs to
+      const layer = layers.find((l) => getStacksByLayer(l).includes(stack));
+      return layer ? getLayerType(layer) : 'craftsmanship';
+    },
+    [layers, getLayerType]
+  );
 
   // Helper functions for accordion state
   const isLayerOpen = useCallback(
     (layer: Layer) => openLayers.has(layer),
     [openLayers]
   );
-  
+
   const isStackOpen = useCallback(
     (stack: Stack) => openStacks.has(stack),
     [openStacks]
@@ -83,6 +124,76 @@ export const useRuleBuilder = () => {
     },
     [selectStack]
   );
+
+  // Filtering libraries based on search query
+  const filterLibraries = useCallback(
+    (libraries: Library[]): Library[] => {
+      if (!debouncedSearchQuery || debouncedSearchQuery.length < 2)
+        return libraries;
+
+      const normalizedQuery = debouncedSearchQuery.toLowerCase();
+      return libraries.filter((library) =>
+        library.toLowerCase().includes(normalizedQuery)
+      );
+    },
+    [debouncedSearchQuery]
+  );
+
+  // Check if any libraries from this layer match the search query
+  const layerContainsSearchMatch = useCallback(
+    (layer: Layer): boolean => {
+      if (!debouncedSearchQuery || debouncedSearchQuery.length < 2) return true;
+
+      // Get all stacks for this layer
+      const stacks = getStacksByLayer(layer);
+
+      // Check if any libraries from these stacks match the search
+      return stacks.some((stack) => {
+        const libraries = getLibrariesByStack(stack);
+        return filterLibraries(libraries).length > 0;
+      });
+    },
+    [debouncedSearchQuery, filterLibraries]
+  );
+
+  // Check if any libraries from this stack match the search query
+  const stackContainsSearchMatch = useCallback(
+    (stack: Stack): boolean => {
+      if (!debouncedSearchQuery || debouncedSearchQuery.length < 2) return true;
+
+      const libraries = getLibrariesByStack(stack);
+      return filterLibraries(libraries).length > 0;
+    },
+    [debouncedSearchQuery, filterLibraries]
+  );
+
+  // Get filtered libraries for a stack
+  const getFilteredLibrariesByStack = useCallback(
+    (stack: Stack): Library[] => {
+      const libraries = getLibrariesByStack(stack);
+      return filterLibraries(libraries);
+    },
+    [filterLibraries]
+  );
+
+  // Calculate total and matched libraries counts
+  const getLibraryCounts = useMemo(() => {
+    let totalCount = 0;
+    let matchedCount = 0;
+
+    layers.forEach((layer) => {
+      const stacks = getStacksByLayer(layer);
+      stacks.forEach((stack) => {
+        const libraries = getLibrariesByStack(stack);
+        const filteredLibraries = filterLibraries(libraries);
+
+        totalCount += libraries.length;
+        matchedCount += filteredLibraries.length;
+      });
+    });
+
+    return { totalCount, matchedCount };
+  }, [layers, filterLibraries]);
 
   // Check if any libraries from this layer are selected
   const hasSelectedLibraries = useCallback(
@@ -133,7 +244,7 @@ export const useRuleBuilder = () => {
 
   // Handle library toggle
   const handleLibraryToggle = useCallback(
-    (library: Library) => {
+    (library: LibraryType) => {
       if (isLibrarySelected(library)) {
         unselectLibrary(library);
       } else {
@@ -146,27 +257,117 @@ export const useRuleBuilder = () => {
   // Handle clear all
   const handleClearAll = useCallback(() => {
     resetAll();
+    setSearchQuery('');
     setOpenLayers(new Set());
     setOpenStacks(new Set());
   }, [resetAll]);
 
   // Get layer type for a library based on its related stack
-  const getLibraryLayerType = useCallback((library: Library): LayerType => {
-    // Find first stack that contains this library
-    const stacks = Object.values(Stack);
-    for (const stack of stacks) {
-      if (getLibrariesByStack(stack).includes(library)) {
-        return getStackLayerType(stack);
+  const getLibraryLayerType = useCallback(
+    (library: Library): LayerType => {
+      // Find first stack that contains this library
+      const stacks = Object.values(Stack);
+      for (const stack of stacks) {
+        if (getLibrariesByStack(stack).includes(library)) {
+          return getStackLayerType(stack);
+        }
       }
+      return 'craftsmanship';
+    },
+    [getStackLayerType]
+  );
+
+  // Improved auto-expand logic for search matches with better timing
+  useEffect(() => {
+    // Clear any ongoing timers when searchQuery changes
+    let layerTimer: ReturnType<typeof setTimeout>;
+    let stackTimer: ReturnType<typeof setTimeout>;
+    let completeTimer: ReturnType<typeof setTimeout>;
+
+    // Reset search expansion state when query changes
+    setIsSearchExpanded(false);
+
+    // Only proceed if we have a valid search query
+    if (debouncedSearchQuery && debouncedSearchQuery.length >= 2) {
+      // Find layers with matching libraries
+      const matchingLayers = layers.filter(layerContainsSearchMatch);
+
+      // First update layer state (open matching layers)
+      layerTimer = setTimeout(() => {
+        setOpenLayers((prev) => {
+          const newOpenLayers = new Set<string>();
+          matchingLayers.forEach((layer) => {
+            newOpenLayers.add(layer);
+          });
+          return newOpenLayers;
+        });
+
+        // Then find and open matching stacks after layers have been opened
+        stackTimer = setTimeout(() => {
+          // Find stacks with matching libraries
+          const matchingStacks = new Set<string>();
+          matchingLayers.forEach((layer) => {
+            const stacks = getStacksByLayer(layer);
+            stacks.forEach((stack) => {
+              if (stackContainsSearchMatch(stack)) {
+                matchingStacks.add(stack);
+              }
+            });
+          });
+
+          // Update stack state
+          setOpenStacks((prev) => {
+            const newOpenStacks = new Set<string>();
+            matchingStacks.forEach((stack) => {
+              newOpenStacks.add(stack);
+            });
+            return newOpenStacks;
+          });
+
+          // Mark as complete after everything has been updated
+          completeTimer = setTimeout(() => {
+            setIsSearchExpanded(true);
+          }, 300); // Increased from 200ms to give more time for animations
+        }, 200); // Increased from 150ms to ensure layer expansion completes
+      }, 80); // Increased from 50ms to give more time for initial processing
+    } else if (debouncedSearchQuery.length < 2) {
+      // If clearing the search, restore the previous state
+      layerTimer = setTimeout(() => {
+        setOpenLayers(preSearchOpenLayers);
+        setOpenStacks(preSearchOpenStacks);
+
+        // Give time for state changes to process before marking as not expanded
+        completeTimer = setTimeout(() => {
+          setIsSearchExpanded(false);
+        }, 150);
+      }, 80); // Increased from 50ms
     }
-    return 'craftsmanship';
-  }, [getStackLayerType]);
+
+    // Clean up timers on unmount or when dependencies change
+    return () => {
+      clearTimeout(layerTimer);
+      clearTimeout(stackTimer);
+      clearTimeout(completeTimer);
+    };
+  }, [
+    debouncedSearchQuery,
+    layers,
+    layerContainsSearchMatch,
+    stackContainsSearchMatch,
+    preSearchOpenLayers,
+    preSearchOpenStacks,
+  ]);
+
+  // Handle search query change
+  const handleSearchChange = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
 
   return {
     // State
     layers,
     selectedLibraries,
-    
+
     // Accordion state
     openLayers,
     openStacks,
@@ -174,7 +375,18 @@ export const useRuleBuilder = () => {
     isStackOpen,
     toggleLayer,
     toggleStack,
-    
+
+    // Search state and functions
+    searchQuery,
+    debouncedSearchQuery,
+    handleSearchChange,
+    layerContainsSearchMatch,
+    stackContainsSearchMatch,
+    getFilteredLibrariesByStack,
+    getLibraryCounts,
+    isSearchActive: debouncedSearchQuery.length >= 2,
+    isSearchExpanded,
+
     // Library functions
     getSelectedLibrariesCount,
     getSelectedLibrariesCountForLayer,
@@ -183,10 +395,10 @@ export const useRuleBuilder = () => {
     handleLibraryToggle,
     isLibrarySelected,
     unselectLibrary,
-    
+
     // Actions
     handleClearAll,
-    
+
     // Layer types for styling
     getLayerType,
     getStackLayerType,
