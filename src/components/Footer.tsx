@@ -1,4 +1,4 @@
-import { Bot, Wrench, Rocket } from 'lucide-react';
+import { X, Wrench, Rocket } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -20,13 +20,15 @@ export default function Footer() {
             10xDevs
           </a>
           <a
-            href="https://opanuj.ai"
+            href={`https://x.com/share?text=${encodeURIComponent(
+              'Rules for AI - generate rules for @cursor_ai, @windsurf_ai and Copilot based on your tech stack.\n\n'
+            )}&url=${encodeURIComponent('https://10xrules.ai')}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-indigo-400 transition-colors duration-200 ease-in-out flex items-center"
           >
-            <Bot className="size-4 mr-1" />
-            Opanuj.ai
+            <X className="size-4 mr-1" />
+            Share on X
           </a>
           <a
             href="https://github.com/przeprogramowani/ai-rules-builder"
