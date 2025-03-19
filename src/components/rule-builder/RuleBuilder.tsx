@@ -136,11 +136,23 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ className = '' }) => {
           className={`w-full transition-all duration-${transitions.duration.slow} ${transitions.timing.default} flex-grow overflow-auto`}
         >
           {hasNoSearchResults ? (
-            <div className="flex justify-center items-center py-8 h-full text-center text-gray-400">
-              No rules matching "{debouncedSearchQuery}" were found.
+            <div className="flex flex-col justify-center items-center py-8 h-full text-center text-gray-400 space-y-2">
+              <div>No rules matching "{debouncedSearchQuery}" were found.</div>
+              <a
+                href="https://github.com/przeprogramowani/ai-rules-builder/issues/new?title=%5BRequest+for+new+rule%5D&labels=rule-request"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline text-sm"
+              >
+                Request a new rule
+              </a>
             </div>
           ) : (
-            <Accordion type="multiple" className="space-y-3 w-full" isNested={false}>
+            <Accordion
+              type="multiple"
+              className="space-y-3 w-full"
+              isNested={false}
+            >
               {layers.map((layer) => {
                 const selectedCount = getSelectedLibrariesCountForLayer(layer);
                 const isOpen = isLayerOpen(layer);
