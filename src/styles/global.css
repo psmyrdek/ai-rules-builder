@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-mono: 'Noto Sans Mono', monospace;
+}
+
 @layer utilities {
   @keyframes accordion-down {
     from {
