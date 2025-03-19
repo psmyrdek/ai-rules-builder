@@ -1,100 +1,84 @@
-import React, { useState } from 'react';
-import { Layer, Stack, Library } from '../../data/dictionaries';
-import { useTechStackStore } from '../../store/techStackStore';
-import LayerSelector from './LayerSelector';
-import StackSelector from './StackSelector';
-import LibrarySelector from './LibrarySelector';
 import { Trash2 } from 'lucide-react';
-
-// Navigation view states
-type ViewState = 'layers' | 'stacks' | 'libraries';
+import React from 'react';
+import { Layer, Library } from '../../data/dictionaries';
+import { Accordion } from '../ui/Accordion';
+import { useRuleBuilder } from './hooks/useRuleBuilder';
+import { LayerItem } from './LayerItem';
+import { SelectedRules } from './SelectedRules';
 
 export const RuleBuilder: React.FC = () => {
-  // Track the current view
-  const [currentView, setCurrentView] = useState<ViewState>('layers');
-
-  // Track selected items for navigation
-  const [activeLayer, setActiveLayer] = useState<Layer | null>(null);
-  const [activeStack, setActiveStack] = useState<Stack | null>(null);
-
-  // Get selected libraries from store
-  const { selectedLibraries, resetAll } = useTechStackStore();
-
-  // Navigation handlers
-  const handleLayerSelect = (layer: Layer) => {
-    setActiveLayer(layer);
-    setCurrentView('stacks');
-  };
-
-  const handleStackSelect = (stack: Stack) => {
-    setActiveStack(stack);
-    setCurrentView('libraries');
-  };
-
-  const handleBackToLayers = () => {
-    setCurrentView('layers');
-  };
-
-  const handleBackToStacks = () => {
-    setCurrentView('stacks');
-  };
-
-  const handleClearAll = () => {
-    resetAll();
-    setActiveLayer(null);
-    setActiveStack(null);
-    setCurrentView('layers');
-  };
-
-  // Render the appropriate view based on navigation state
-  const renderCurrentView = () => {
-    switch (currentView) {
-      case 'layers':
-        return <LayerSelector onSelectLayer={handleLayerSelect} />;
-
-      case 'stacks':
-        if (!activeLayer) return <div>No layer selected</div>;
-        return (
-          <StackSelector
-            selectedLayer={activeLayer}
-            onSelectStack={handleStackSelect}
-            onBackToLayers={handleBackToLayers}
-          />
-        );
-
-      case 'libraries':
-        if (!activeStack) return <div>No stack selected</div>;
-        return (
-          <LibrarySelector
-            selectedStack={activeStack}
-            onBackToStacks={handleBackToStacks}
-          />
-        );
-
-      default:
-        return <div>Unknown view</div>;
-    }
-  };
+  const {
+    layers,
+    selectedLibraries,
+    isLayerOpen,
+    isStackOpen,
+    toggleLayer,
+    toggleStack,
+    getSelectedLibrariesCount,
+    getSelectedLibrariesCountForLayer,
+    hasSelectedLibraries,
+    hasStackSelectedLibraries,
+    handleLibraryToggle,
+    isLibrarySelected,
+    unselectLibrary,
+    handleClearAll,
+    getLayerType,
+    getStackLayerType,
+    getLibraryLayerType,
+  } = useRuleBuilder();
 
   return (
-    <>
-      <div className="p-4 bg-gray-900 rounded-lg space-y-4">
-        {renderCurrentView()}
-      </div>
-      {selectedLibraries.length > 0 && (
-        <div className="flex justify-end mt-4">
-          <button
-            onClick={handleClearAll}
-            className="flex items-center gap-1 text-xs text-gray-400 transition-colors px-2 py-1 rounded hover:bg-gray-800 hover:text-red-400"
-            title="Clear all selections"
-          >
-            <Trash2 className="size-3" />
-            <span>Clear all</span>
-          </button>
+    <div className="flex flex-col space-y-4">
+      <div className="p-6 space-y-5 rounded-lg shadow-lg bg-gray-900/90">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-white">Rule Builder</h2>
+          {selectedLibraries.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className={`flex gap-2 items-center px-3 py-1.5 text-sm bg-gray-800/50 rounded-md transition-colors hover:bg-gray-700/50 text-gray-400 hover:text-orange-400 hover:shadow-sm`}
+              title="Clear all selections"
+            >
+              <Trash2 className="size-4" />
+              <span>Clear all</span>
+            </button>
+          )}
         </div>
-      )}
-    </>
+
+        <Accordion type="multiple" className="space-y-3">
+          {layers.map((layer) => {
+            const selectedCount = getSelectedLibrariesCountForLayer(layer);
+            const isOpen = isLayerOpen(layer);
+            const hasSelected = hasSelectedLibraries(layer);
+
+            return (
+              <LayerItem
+                key={layer}
+                layer={layer}
+                isOpen={isOpen}
+                hasSelected={hasSelected}
+                selectedCount={selectedCount}
+                toggleLayer={toggleLayer}
+                isStackOpen={isStackOpen}
+                toggleStack={toggleStack}
+                getSelectedLibrariesCount={getSelectedLibrariesCount}
+                hasStackSelectedLibraries={hasStackSelectedLibraries}
+                handleLibraryToggle={handleLibraryToggle}
+                isLibrarySelected={isLibrarySelected}
+                getLayerType={getLayerType}
+                getStackLayerType={getStackLayerType}
+              />
+            );
+          })}
+        </Accordion>
+      </div>
+
+      <SelectedRules
+        selectedLibraries={selectedLibraries}
+        unselectLibrary={unselectLibrary}
+        getLibraryLayerType={getLibraryLayerType}
+      />
+    </div>
   );
 };
 
-export default RuleBuilder;
+export default React.memo(RuleBuilder);
