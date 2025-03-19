@@ -66,16 +66,18 @@ export const LayerItem: React.FC<LayerItemProps> = React.memo(
                 <span className="font-medium text-white">{layer}</span>
                 {selectedCount > 0 && (
                   <span
-                    className={`px-2 py-0.5 text-xs font-semibold ${getLayerClasses.badge(layerType)} rounded-full shadow-sm`}
-                  >
-                    {selectedCount} selected
-                  </span>
+                    className={`px-2 py-0.5 text-xs font-semibold ${getLayerClasses.badge(
+                      layerType
+                    )} rounded-full shadow-sm`}
+                  ></span>
                 )}
               </div>
               <span
-                className={`px-2 py-1 text-xs rounded-full ${getLayerClasses.badge(layerType)}`}
+                className={`px-2 py-1 text-xs rounded-full ${getLayerClasses.badge(
+                  layerType
+                )}`}
               >
-                {getStacksByLayer(layer).length} groups
+                {selectedCount} / {getStacksByLayer(layer).length} groups
               </span>
             </div>
           </AccordionTrigger>

@@ -17,14 +17,12 @@ export const LibraryItem: React.FC<LibraryItemProps> = React.memo(
 
     return (
       <button
-        className={`flex justify-between w-full items-center gap-2 px-3 py-2 text-sm rounded-md border transition-all duration-150 ${itemClasses}`}
+        className={`flex gap-2 justify-between items-center px-3 py-2 w-full text-sm rounded-md border transition-all duration-150 cursor-pointer ${itemClasses}`}
         onClick={() => onToggle(library)}
       >
         <span className="font-medium text-white">{library}</span>
         {isSelected && (
-          <Check 
-            className={`size-4 ${getLayerClasses.text(layerType)}`} 
-          />
+          <Check className={`size-4 ${getLayerClasses.text(layerType)}`} />
         )}
       </button>
     );
