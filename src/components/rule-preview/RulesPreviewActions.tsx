@@ -18,7 +18,7 @@ export const RulesPreviewActions: React.FC<RulesPreviewActionsProps> = ({
       case 'github':
         return '.github/copilot-instructions.md';
       case 'cursor':
-        return '.cursorrules';
+        return 'rule.mdc';
       case 'windsurf':
         return '.windsurfrules';
       case 'aider':
