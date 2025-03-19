@@ -26,20 +26,36 @@ const layerColors: Record<LayerType, string> = {
 
 // Ultra-simplified layer class generator
 export const getLayerClasses = {
-  container: (layerType: LayerType, isSelected: boolean, isExpanded: boolean = false): string => {
+  container: (
+    layerType: LayerType,
+    isSelected: boolean,
+    isExpanded: boolean = false
+  ): string => {
     return isSelected
-      ? `bg-gray-700/60 border-${layerColors[layerType]}-400 border shadow-md`
-      : `bg-gray-800/70 ${!isExpanded ? 'hover:bg-gray-700/70' : ''} border border-transparent hover:shadow-sm`;
+      ? `bg-gray-800/70 border-${layerColors[layerType]}-400 border shadow-md ${
+          !isExpanded ? 'hover:bg-gray-700/70' : ''
+        }`
+      : `bg-gray-800/70 ${
+          !isExpanded ? 'hover:bg-gray-700/70' : ''
+        } border border-transparent hover:shadow-sm`;
   },
 
   badge: (layerType: LayerType): string => {
     return `bg-${layerColors[layerType]}-400/20 text-white`;
   },
 
-  stackContainer: (layerType: LayerType, isSelected: boolean): string => {
+  stackContainer: (
+    layerType: LayerType,
+    isSelected: boolean,
+    isExpanded = false
+  ): string => {
     return isSelected
-      ? `bg-gray-700/60 border-${layerColors[layerType]}-300 border shadow-md`
-      : `bg-gray-700/60 hover:bg-gray-600/60 border border-transparent hover:shadow-sm`;
+      ? `bg-gray-700/40 border-${layerColors[layerType]}-300 border shadow-md ${
+          !isExpanded ? 'hover:bg-gray-600/60' : ''
+        }`
+      : `bg-gray-700/60 ${
+          !isExpanded ? 'hover:bg-gray-600/60' : ''
+        } border border-transparent hover:shadow-sm`;
   },
 
   libraryItem: (layerType: LayerType, isSelected: boolean): string => {

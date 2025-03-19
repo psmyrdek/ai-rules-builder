@@ -1,10 +1,10 @@
 import {
-  Stack,
-  Library,
   Layer,
-  getStacksByLibrary,
+  Library,
+  Stack,
   getLayerByStack,
   getLibrariesByStack,
+  getStacksByLibrary,
 } from '../data/dictionaries';
 import { getRulesForLibrary } from '../data/rules';
 
@@ -40,7 +40,8 @@ export class RulesBuilderService {
     markdown += `${projectDescription}\n\n`;
 
     if (selectedLibraries.length === 0) {
-      markdown += `> Select libraries from the left panel or drop dependency file here 👇`;
+      markdown += `---\n\n`;
+      markdown += `👉 Select yours project tech stack from the Rule Builder on the left or drop dependency file here `;
       return { markdown };
     }
 

@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useTechStackStore } from '../../store/techStackStore';
-import { useProjectStore } from '../../store/projectStore';
-import { RulePreviewTopbar } from './RulePreviewTopbar';
+import { FileUp } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { RulesBuilderService } from '../../services/rulesBuilderService';
+import { useProjectStore } from '../../store/projectStore';
+import { useTechStackStore } from '../../store/techStackStore';
 import { styleMarkdownContent } from '../../utils/markdownStyling';
 import { useDependencyUpload } from '../rule-parser/useDependencyUpload';
-import { FileUp } from 'lucide-react';
+import { RulePreviewTopbar } from './RulePreviewTopbar';
 
 export const RulePreview: React.FC = () => {
   const { selectedLibraries } = useTechStackStore();
   const { projectName, projectDescription } = useProjectStore();
   const [markdownContent, setMarkdownContent] = useState<string>('');
   const [isDragging, setIsDragging] = useState(false);
-  const { isUploading, uploadStatus, uploadDependencyFile } = useDependencyUpload();
+  const { isUploading, uploadStatus, uploadDependencyFile } =
+    useDependencyUpload();
 
   // Generate markdown content when libraries or project metadata changes
   useEffect(() => {
@@ -51,7 +52,9 @@ export const RulePreview: React.FC = () => {
         if (file.name.endsWith('.json') || file.name.endsWith('.txt')) {
           await uploadDependencyFile(file);
         } else {
-          console.warn('Invalid file type. Please drop a package.json or requirements.txt file.');
+          console.warn(
+            'Invalid file type. Please drop a package.json or requirements.txt file.'
+          );
         }
       }
     },
@@ -59,39 +62,43 @@ export const RulePreview: React.FC = () => {
   );
 
   return (
-    <div 
-      className="flex flex-col h-full pb-32 overflow-y-auto relative"
+    <div
+      className="flex overflow-y-auto relative flex-col h-full"
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       <RulePreviewTopbar markdown={markdownContent} />
 
-      <div className="flex-1 overflow-y-auto bg-gray-900 rounded-lg p-4 mt-4 relative">
-        <pre className="whitespace-pre-wrap text-gray-300 font-mono text-sm">
+      <div className="overflow-y-auto relative flex-1 p-4 mt-4 h-full min-h-0 bg-gray-900 rounded-lg">
+        <pre className="font-mono text-sm text-gray-300 whitespace-pre-wrap">
           {styleMarkdownContent(markdownContent)}
         </pre>
-        
+
         {/* Dropzone overlay that appears when dragging */}
         {isDragging && (
-          <div className="absolute inset-0 bg-gray-800 bg-opacity-80 flex flex-col items-center justify-center z-10 border-2 border-dashed border-blue-400 rounded-lg">
-            <FileUp className="size-12 text-blue-400 mb-4" />
-            <p className="text-blue-400 text-lg font-medium">Drop dependency file to identify libraries</p>
-            <p className="text-gray-400 text-sm mt-2">Supported: package.json, requirements.txt</p>
+          <div className="flex absolute inset-0 z-10 flex-col justify-center items-center bg-gray-800 bg-opacity-80 rounded-lg border-2 border-blue-400 border-dashed">
+            <FileUp className="mb-4 text-blue-400 size-12" />
+            <p className="text-lg font-medium text-blue-400">
+              Drop dependency file to identify libraries
+            </p>
+            <p className="mt-2 text-sm text-gray-400">
+              Supported: package.json, requirements.txt
+            </p>
           </div>
         )}
       </div>
-      
+
       {/* Upload status message */}
       {uploadStatus.message && (
-        <div className={`text-xs mt-2 ${uploadStatus.success ? 'text-green-400' : 'text-red-400'}`}>
+        <div
+          className={`text-xs mt-2 ${
+            uploadStatus.success ? 'text-green-400' : 'text-red-400'
+          }`}
+        >
           {uploadStatus.message}
         </div>
       )}
-      
-      <p className="text-gray-600 mt-4">
-        Adjust these rules to match your project's specific needs.
-      </p>
     </div>
   );
 };

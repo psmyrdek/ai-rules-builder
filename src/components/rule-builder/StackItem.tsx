@@ -33,7 +33,8 @@ export const StackItem: React.FC<StackItemProps> = React.memo(
   }) => {
     const containerClasses = getLayerClasses.stackContainer(
       layerType,
-      hasSelected
+      hasSelected,
+      isOpen
     );
 
     return (
