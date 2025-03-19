@@ -1,6 +1,6 @@
 # 10xRules.ai by 10xDevs
 
-![](.docs/demo.png)
+![](./public/demo.png)
 
 👉 [10xRules.ai](https://10xrules.ai)
 
