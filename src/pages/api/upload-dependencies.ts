@@ -11,13 +11,11 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     // Debug the request headers
     const contentType = request.headers.get('content-type') || '';
-    console.log('Request content-type:', contentType);
 
     // Parse the form data
     let formData;
     try {
       formData = await request.formData();
-      console.log('FormData parsed successfully');
     } catch (error) {
       console.error('Error parsing form data:', error);
       return new Response(
