@@ -7,6 +7,11 @@ import { type LibraryRulesMap } from './types';
 export const infrastructureRules: LibraryRulesMap = {
   // CI/CD libraries
   [Library.GITHUB_ACTIONS]: [
+    'Use actions/checkout@v4 to checkout code',
+    'Use actions/setup-node@v4 to setup Node.js',
+    'Use actions/setup-python@v5 to setup Python',
+    'Use actions/setup-java@v4 to setup Java',
+    'Use actions/setup-go@v5 to setup Go',
     'Use composite actions to reuse workflow steps across different workflows',
     'Implement caching for dependencies to speed up builds',
     'Use matrix builds for testing across {{platform_versions}}',
