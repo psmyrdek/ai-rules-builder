@@ -41,7 +41,7 @@ export class RulesBuilderService {
 
     if (selectedLibraries.length === 0) {
       markdown += `---\n\n`;
-      markdown += `👉 Use the Rule Builder on the left or drop dependency file here`;
+      markdown += `👈 Use the Rule Builder on the left or drop dependency file here`;
       return { markdown };
     }
 
