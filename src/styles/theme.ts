@@ -116,7 +116,7 @@ export const getLayerClasses = {
   selectedRuleBadge: (layerType: LayerType): string => {
     return `bg-${layerColors[layerType]}-400/20 text-white`;
   },
-  
+
   focusRing: (layerType: LayerType): string => {
     return `focus:ring-${layerColors[layerType]}-500`;
   },
@@ -127,7 +127,7 @@ import { Layer } from '../data/dictionaries';
 
 export const layerToType = (layer: Layer): LayerType => {
   switch (layer) {
-    case Layer.CRAFTSMANSHIP:
+    case Layer.CODING_PRACTICES:
       return 'craftsmanship';
     case Layer.FRONTEND:
       return 'frontend';
