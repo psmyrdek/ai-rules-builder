@@ -6,6 +6,7 @@ import { type LibraryRulesMap } from './types';
  */
 export const codingRules: LibraryRulesMap = {
   [Library.SUPPORT_BEGINNER]: [
+    'When running in agent mode, execute up to 3 actions at a time and ask for approval or course correction afterwards.',
     'Write code with clear variable names and include explanatory comments for non-obvious logic. Avoid shorthand syntax and complex patterns.',
     'Provide full implementations rather than partial snippets. Include import statements, required dependencies, and initialization code.',
     'Add defensive coding patterns and clear error handling. Include validation for user inputs and explicit type checking.',
