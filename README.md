@@ -1,6 +1,6 @@
 # 10xRules.ai by 10xDevs
 
-[![Build and Deploy](https://github.com/przeprogramowani/ai-rules-builder/actions/workflows/master.yml/badge.svg)](https://github.com/10xdevs/10xrules/actions/workflows/master.yml)
+[![Build and Deploy](https://github.com/przeprogramowani/ai-rules-builder/actions/workflows/master.yml/badge.svg)](https://github.com/przeprogramowani/ai-rules-builder/actions/workflows/master.yml)
 
 ![](./public/demo.png)
 
