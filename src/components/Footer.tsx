@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <div className="flex items-center space-x-2 mb-2 sm:mb-0">
           <span className="text-sm">
-            {new Date().getFullYear()} AI Rules Builder by 10xDevs
+            {new Date().getFullYear()} 10xRules by 10xDevs.pl
           </span>
         </div>
         <div className="flex gap-6 text-sm">
