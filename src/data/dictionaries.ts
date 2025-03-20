@@ -23,6 +23,7 @@ export enum Stack {
   ANGULAR = 'Angular',
   SVELTE = 'Svelte',
   ASTRO = 'Astro',
+  STYLING = 'Styling',
 
   // Backend stacks
   NODE = 'Node.js',
@@ -47,20 +48,22 @@ export enum Stack {
   E2E = 'End-to-End Testing',
 
   // Craftsmanship stacks
-  CODE_QUALITY = 'Code Quality',
-  DOCUMENTATION = 'Documentation',
   VERSION_CONTROL = 'Version Control',
+  DOCUMENTATION = 'Documentation',
   ARCHITECTURE = 'Architecture',
+  STATIC_ANALYSIS = 'Static analysis',
 }
 
 export enum Library {
   // React libraries
+  NEXT_JS = 'Next.js',
   REACT_ROUTER = 'React Router',
   REDUX = 'Redux',
   ZUSTAND = 'Zustand',
   REACT_QUERY = 'React Query',
 
   // Vue libraries
+  NUXT = 'Nuxt',
   VUEX = 'Vuex',
   VUE_ROUTER = 'Vue Router',
   PINIA = 'Pinia',
@@ -74,6 +77,11 @@ export enum Library {
 
   // Astro libraries
   ASTRO_ISLANDS = 'Astro Islands',
+
+  // Styling libraries
+  TAILWIND = 'Tailwind',
+  STYLED_COMPONENTS = 'Styled Components',
+  SCSS = 'Sass / SCSS',
 
   // Node.js libraries
   EXPRESS = 'Express',
@@ -127,6 +135,7 @@ export enum Library {
 
   // Unit testing libraries
   JEST = 'Jest',
+  VITEST = 'Vitest',
   MOCHA = 'Mocha',
   PYTEST = 'PyTest',
 
@@ -180,6 +189,7 @@ export const layerToStackMap: LayerToStackMap = {
     Stack.ANGULAR,
     Stack.SVELTE,
     Stack.ASTRO,
+    Stack.STYLING,
   ],
   [Layer.BACKEND]: [
     Stack.NODE,
@@ -192,25 +202,27 @@ export const layerToStackMap: LayerToStackMap = {
   [Layer.DEVOPS]: [Stack.CI_CD, Stack.CONTAINERIZATION, Stack.CLOUD],
   [Layer.TESTING]: [Stack.UNIT, Stack.INTEGRATION, Stack.E2E],
   [Layer.CRAFTSMANSHIP]: [
-    Stack.CODE_QUALITY,
     Stack.DOCUMENTATION,
     Stack.VERSION_CONTROL,
     Stack.ARCHITECTURE,
+    Stack.STATIC_ANALYSIS,
   ],
 };
 
 // Map stacks to libraries
 export const stackToLibraryMap: StackToLibraryMap = {
   [Stack.REACT]: [
+    Library.NEXT_JS,
     Library.REACT_ROUTER,
     Library.REDUX,
     Library.ZUSTAND,
     Library.REACT_QUERY,
   ],
-  [Stack.VUE]: [Library.VUEX, Library.VUE_ROUTER, Library.PINIA],
+  [Stack.VUE]: [Library.NUXT, Library.VUEX, Library.VUE_ROUTER, Library.PINIA],
   [Stack.ANGULAR]: [Library.NGRX, Library.ANGULAR_MATERIAL],
   [Stack.SVELTE]: [Library.SVELTE_KIT],
   [Stack.ASTRO]: [Library.ASTRO_ISLANDS],
+  [Stack.STYLING]: [Library.TAILWIND, Library.STYLED_COMPONENTS, Library.SCSS],
   [Stack.NODE]: [Library.EXPRESS, Library.NEST, Library.FASTIFY],
   [Stack.PYTHON]: [Library.DJANGO, Library.FLASK, Library.FASTAPI],
   [Stack.JAVA]: [Library.SPRING, Library.HIBERNATE],
@@ -222,20 +234,20 @@ export const stackToLibraryMap: StackToLibraryMap = {
   [Stack.CI_CD]: [Library.GITHUB_ACTIONS, Library.JENKINS, Library.GITLAB_CI],
   [Stack.CONTAINERIZATION]: [Library.DOCKER, Library.KUBERNETES],
   [Stack.CLOUD]: [Library.AWS, Library.AZURE, Library.GCP],
-  [Stack.UNIT]: [Library.JEST, Library.MOCHA, Library.PYTEST],
+  [Stack.UNIT]: [Library.JEST, Library.VITEST, Library.MOCHA, Library.PYTEST],
   [Stack.INTEGRATION]: [Library.SUPERTEST],
   [Stack.E2E]: [Library.CYPRESS, Library.PLAYWRIGHT, Library.SELENIUM],
-  [Stack.CODE_QUALITY]: [
+  [Stack.STATIC_ANALYSIS]: [
     Library.ESLINT,
     Library.PRETTIER,
     Library.SONARQUBE,
     Library.CODECOV,
   ],
   [Stack.DOCUMENTATION]: [
+    Library.JSDOC,
+    Library.TYPEDOC,
     Library.STORYBOOK,
     Library.SWAGGER,
-    Library.TYPEDOC,
-    Library.JSDOC,
   ],
   [Stack.VERSION_CONTROL]: [
     Library.GIT,
@@ -297,10 +309,10 @@ export const getLayersByLibrary = (library: Library): Layer[] => {
 export const getLibrariesCountByLayer = (layer: Layer): number => {
   const stacks = getStacksByLayer(layer);
   let totalLibraries = 0;
-  
-  stacks.forEach(stack => {
+
+  stacks.forEach((stack) => {
     totalLibraries += getLibrariesByStack(stack).length;
   });
-  
+
   return totalLibraries;
 };

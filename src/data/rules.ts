@@ -8,7 +8,6 @@ import {
   codingRules,
   getRulesForLibrary as getLibraryRules,
   getRulesForLibraries as getLibrariesRules,
-  type LibraryRulesMap,
 } from './rules/index';
 
 /**
