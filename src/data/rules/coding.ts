@@ -5,6 +5,26 @@ import { type LibraryRulesMap } from './types';
  * Coding practices library rules (Code Quality, Documentation, Version Control, Architecture)
  */
 export const codingRules: LibraryRulesMap = {
+  [Library.SUPPORT_BEGINNER]: [
+    'Write code with clear variable names and include explanatory comments for non-obvious logic. Avoid shorthand syntax and complex patterns.',
+    'Provide full implementations rather than partial snippets. Include import statements, required dependencies, and initialization code.',
+    'Add defensive coding patterns and clear error handling. Include validation for user inputs and explicit type checking.',
+    'Suggest simpler solutions first, then offer more optimized versions with explanations of the trade-offs.',
+    'Briefly explain why certain approaches are used and link to relevant documentation or learning resources.',
+    'When suggesting fixes for errors, explain the root cause and how the solution addresses it to build understanding. Ask for confirmation before proceeding.',
+    'Offer introducing basic test cases that demonstrate how the code works and common edge cases to consider.',
+  ],
+
+  [Library.SUPPORT_EXPERT]: [
+    'Favor elegant, maintainable solutions over verbose code. Assume understanding of language idioms and design patterns.',
+    'Highlight potential performance implications and optimization opportunities in suggested code.',
+    'Frame solutions within broader architectural contexts and suggest design alternatives when appropriate.',
+    "Focus comments on 'why' not 'what' - assume code readability through well-named functions and variables.",
+    'Proactively address edge cases, race conditions, and security considerations without being prompted.',
+    'When debugging, provide targeted diagnostic approaches rather than shotgun solutions.',
+    'Suggest comprehensive testing strategies rather than just example tests, including considerations for mocking, test organization, and coverage.',
+  ],
+
   // Code Quality libraries
   [Library.ESLINT]: [
     'Configure project-specific rules in .eslintrc to enforce consistent coding standards',

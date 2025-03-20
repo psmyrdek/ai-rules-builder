@@ -8,7 +8,7 @@
 
 // Define enums for each level
 export enum Layer {
-  CRAFTSMANSHIP = 'Coding practices',
+  CODING_PRACTICES = 'Coding practices',
   FRONTEND = 'Frontend',
   BACKEND = 'Backend',
   DATABASE = 'Database',
@@ -47,7 +47,8 @@ export enum Stack {
   INTEGRATION = 'Integration Testing',
   E2E = 'End-to-End Testing',
 
-  // Craftsmanship stacks
+  // Coding practices
+  SUPPORT_LEVEL = 'AI Support Level',
   VERSION_CONTROL = 'Version Control',
   DOCUMENTATION = 'Documentation',
   ARCHITECTURE = 'Architecture',
@@ -81,7 +82,7 @@ export enum Library {
   // Styling libraries
   TAILWIND = 'Tailwind',
   STYLED_COMPONENTS = 'Styled Components',
-  SCSS = 'Sass / SCSS',
+  SCSS = 'SASS / SCSS',
 
   // Node.js libraries
   EXPRESS = 'Express',
@@ -147,6 +148,10 @@ export enum Library {
   PLAYWRIGHT = 'Playwright',
   SELENIUM = 'Selenium',
 
+  // Support level
+  SUPPORT_BEGINNER = 'I am a beginner',
+  SUPPORT_EXPERT = 'I am an expert',
+
   // Code Quality libraries
   ESLINT = 'ESLint',
   PRETTIER = 'Prettier',
@@ -183,6 +188,13 @@ export interface StackToLibraryMap {
 
 // Map layers to stacks
 export const layerToStackMap: LayerToStackMap = {
+  [Layer.CODING_PRACTICES]: [
+    Stack.SUPPORT_LEVEL,
+    Stack.DOCUMENTATION,
+    Stack.VERSION_CONTROL,
+    Stack.ARCHITECTURE,
+    Stack.STATIC_ANALYSIS,
+  ],
   [Layer.FRONTEND]: [
     Stack.REACT,
     Stack.VUE,
@@ -201,12 +213,6 @@ export const layerToStackMap: LayerToStackMap = {
   [Layer.DATABASE]: [Stack.SQL, Stack.NOSQL, Stack.GRAPH],
   [Layer.DEVOPS]: [Stack.CI_CD, Stack.CONTAINERIZATION, Stack.CLOUD],
   [Layer.TESTING]: [Stack.UNIT, Stack.INTEGRATION, Stack.E2E],
-  [Layer.CRAFTSMANSHIP]: [
-    Stack.DOCUMENTATION,
-    Stack.VERSION_CONTROL,
-    Stack.ARCHITECTURE,
-    Stack.STATIC_ANALYSIS,
-  ],
 };
 
 // Map stacks to libraries
@@ -237,6 +243,7 @@ export const stackToLibraryMap: StackToLibraryMap = {
   [Stack.UNIT]: [Library.JEST, Library.VITEST, Library.MOCHA, Library.PYTEST],
   [Stack.INTEGRATION]: [Library.SUPERTEST],
   [Stack.E2E]: [Library.CYPRESS, Library.PLAYWRIGHT, Library.SELENIUM],
+  [Stack.SUPPORT_LEVEL]: [Library.SUPPORT_BEGINNER, Library.SUPPORT_EXPERT],
   [Stack.STATIC_ANALYSIS]: [
     Library.ESLINT,
     Library.PRETTIER,
