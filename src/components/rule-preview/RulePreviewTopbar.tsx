@@ -86,6 +86,16 @@ export const RulePreviewTopbar: React.FC<RulePreviewTopbarProps> = ({
               Aider
             </button>
             <button
+              onClick={() => setSelectedEnvironment('cline')}
+              className={`px-3 py-1 text-xs rounded-md ${
+                selectedEnvironment === 'cline'
+                  ? 'bg-indigo-700 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              Cline
+            </button>
+            <button
               onClick={() => setSelectedEnvironment('junie')}
               className={`px-3 py-1 text-xs rounded-md ${
                 selectedEnvironment === 'junie'

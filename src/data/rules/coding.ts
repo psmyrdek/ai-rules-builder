@@ -60,7 +60,18 @@ export const codingRules: LibraryRulesMap = {
     'Set up pull request comments to highlight coverage changes during review',
   ],
 
-  // Documentation libraries
+  [Library.DOC_UPDATES]: [
+    'Update relevant documentation in /docs when modifying features',
+    'Keep README.md in sync with new capabilities',
+    'Maintain changelog entries in CHANGELOG.md',
+  ],
+  [Library.ADR]: [
+    'Create ADRs in /docs/adr/{name}.md for:',
+    '1) Major dependency changes',
+    '2) Architectural pattern changes',
+    '3) New integration patterns',
+    '4) Database schema changes',
+  ],
   [Library.STORYBOOK]: [
     'Organize stories by component hierarchy to mirror the application structure',
     'Implement comprehensive controls to showcase component variations for {{component_types}}',

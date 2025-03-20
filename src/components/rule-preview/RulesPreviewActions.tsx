@@ -21,6 +21,8 @@ export const RulesPreviewActions: React.FC<RulesPreviewActionsProps> = ({
         return 'rule.mdc';
       case 'windsurf':
         return '.windsurfrules';
+      case 'cline':
+        return '.clinerules';
       case 'aider':
         return 'CONVENTIONS.md';
       case 'junie':
@@ -37,6 +39,8 @@ export const RulesPreviewActions: React.FC<RulesPreviewActionsProps> = ({
         return 'https://docs.cursor.com/context/rules-for-ai';
       case 'windsurf':
         return 'https://docs.codeium.com/windsurf/memories#windsurfrules';
+      case 'cline':
+        return 'https://docs.cline.bot/improving-your-prompting-skills/prompting#clinerules-file';
       case 'aider':
         return 'https://aider.chat/docs/usage/conventions.html';
       case 'junie':

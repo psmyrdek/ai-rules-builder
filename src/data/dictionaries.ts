@@ -148,7 +148,7 @@ export enum Library {
   PLAYWRIGHT = 'Playwright',
   SELENIUM = 'Selenium',
 
-  // Support level
+  // AI Support
   SUPPORT_BEGINNER = 'I am a beginner',
   SUPPORT_EXPERT = 'I am an expert',
 
@@ -159,6 +159,7 @@ export enum Library {
   CODECOV = 'Codecov',
 
   // Documentation libraries
+  DOC_UPDATES = 'AI Decision Log',
   STORYBOOK = 'Storybook',
   SWAGGER = 'Swagger/OpenAPI',
   TYPEDOC = 'TypeDoc',
@@ -171,6 +172,7 @@ export enum Library {
   CONVENTIONAL_COMMITS = 'Conventional Commits',
 
   // Architecture libraries
+  ADR = 'Architecture Decision Records',
   CLEAN_ARCHITECTURE = 'Clean Architecture',
   DDD = 'Domain-Driven Design',
   MICROSERVICES = 'Microservices',
@@ -251,6 +253,7 @@ export const stackToLibraryMap: StackToLibraryMap = {
     Library.CODECOV,
   ],
   [Stack.DOCUMENTATION]: [
+    Library.DOC_UPDATES,
     Library.JSDOC,
     Library.TYPEDOC,
     Library.STORYBOOK,
@@ -263,6 +266,7 @@ export const stackToLibraryMap: StackToLibraryMap = {
     Library.CONVENTIONAL_COMMITS,
   ],
   [Stack.ARCHITECTURE]: [
+    Library.ADR,
     Library.CLEAN_ARCHITECTURE,
     Library.DDD,
     Library.MICROSERVICES,

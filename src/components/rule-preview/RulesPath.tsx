@@ -13,6 +13,8 @@ export const RulesPath: React.FC = () => {
         return '.cursor/rules/{rule}.mdc';
       case 'windsurf':
         return '.windsurfrules';
+      case 'cline':
+        return '.clinerules';
       case 'aider':
         return 'CONVENTIONS.md';
       case 'junie':

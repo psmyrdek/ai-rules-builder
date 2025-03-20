@@ -7,6 +7,7 @@ export type AIEnvironment =
   | 'cursor'
   | 'windsurf'
   | 'aider'
+  | 'cline'
   | 'junie';
 
 interface ProjectState {
