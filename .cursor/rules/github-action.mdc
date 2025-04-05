@@ -3,55 +3,50 @@ description:
 globs: 
 alwaysApply: false
 ---
+---
+description:
+globs:
+alwaysApply: false
+---
+
 ## Github Action Rules
 
 Use this guide to ensure reliability and high quality of GitHub Actions workflow.
 
-When generating workflows, execute instructions in a following order:
-1. Pre-Generation Knowledge Base
-2. Workflow Creation
-3. Post-Generation Refinement
+When generating workflows, you must follow these steps:
 
-## 1. Pre-Generation Knowledge Base
+1. Workflow Planning
+2. Workflow Creation
+3. Workflow Refinement
+
+Each step is mandatory and must be completed before moving to the next one. Details for each step are below.
+
+## 1. Workflow Planning
 
 Start by creating knowledge base in a following way:
 
-### Tooling and scripts
-
-- Always read scripts in `package.json` to see what you can apply in the requested workflow.
-
-### Environment variables
-
-- When `.env.example` exists in project root, see what kind of environment variables are needed.
-
-### Setup Node
-
-- When `.nvmrc` exists in project root, always use `node-version-file: '.nvmrc'` to setup-node action.
-
-### Master Branch
-
-1. Use `git branch` to verify whether the repository uses `main` or `master` as default branch (it may be useful when creating Pull Request workflows and "push" triggers)
+1. Rephrase the task given by user.
+2. Make a series of mandatory checks:
+   - Check if `package.json` exists in project root, if so, read its content to see what you can use in the requested workflow.
+   - Check if `.nvmrc` exists in project root, if so, always use `node-version-file: '.nvmrc'` to setup-node action.
+   - Use `git branch` to verify whether the repository uses `main` or `master`.
+   - Check if `.env.example` exists in project root to see what kind of environment variables are available.
+3. Outline the plan for GitHub Actions Workflow.
 
 ## 2. Workflow Creation
 
-Once the initial discovery is done, think out loud about your plan:
+Once the initial discovery is done, build the first draft of the workflow.
 
-1. Summarize tech stack
-2. Sketch out your plan for CI/CD Workflow.
+Additional guidelines for the draft:
 
-### Additional guidelines
-
-- Always prefer `npm ci` over `npm install` to ensure sync with lockfile.
+- In Node-based workflows, always use `npm ci` over `npm install` to ensure sync with lockfile.
 - Always create composite actions for generic parts of the job (i.e. comments to PR).
-- Always use discovered node version
-- Always apply correct env variables
+- Attach environment variables to steps via `env:` key.
 
-## 3. Post-Generation Refinement
+## 3. Workflow Refinement
 
-### Version Verification
-
-1. After generating initial version of the workflow, look for the public, external actions (i.e. setup-node) used within the it and list them. Be explicit.
-2. For each action always trigger "Run Terminal" tool to see what is the most up-to-date version with the following command:
+1. After generating the initial version of the workflow, extract the public actions (i.e. checkout, setup-node) used within the it and list them. Be explicit.
+2. For each action always use <tool>"Run Terminal"</tool> to see what is the most up-to-date version with the following command:
 
 ```bash
 curl -s https://api.github.com/repos/{owner}/{repo}/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([0-9]+).*/\1/'
@@ -61,6 +56,7 @@ curl -s https://api.github.com/repos/{owner}/{repo}/releases/latest | grep '"tag
 
 ### Summarization
 
-1. At the end, summarize further steps for me around required environments, secrets or env variables.
+At the end, summarize further steps for me around required environments, secrets or env variables.
+
 - For example: 'Verify that environment 'XYZ' exists
 - Ensure secrets '...' added to environment 'XYZ'
