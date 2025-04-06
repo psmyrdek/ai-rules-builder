@@ -3,60 +3,17 @@ description:
 globs: 
 alwaysApply: false
 ---
----
-description:
-globs:
-alwaysApply: false
----
-
 ## Github Action Rules
 
-Use this guide to ensure reliability and high quality of GitHub Actions workflow.
-
-When generating workflows, you must follow these steps:
-
-1. Workflow Planning
-2. Workflow Creation
-3. Workflow Refinement
-
-Each step is mandatory and must be completed before moving to the next one. Details for each step are below.
-
-## 1. Workflow Planning
-
-Start by creating knowledge base in a following way:
-
-1. Rephrase the task given by user.
-2. Make a series of mandatory checks:
-   - Check if `package.json` exists in project root, if so, read its content to see what you can use in the requested workflow.
-   - Check if `.nvmrc` exists in project root, if so, always use `node-version-file: '.nvmrc'` to setup-node action.
-   - Use `git branch` to verify whether the repository uses `main` or `master`.
-   - Check if `.env.example` exists in project root to see what kind of environment variables are available.
-3. Outline the plan for GitHub Actions Workflow.
-
-## 2. Workflow Creation
-
-Once the initial discovery is done, build the first draft of the workflow.
-
-Additional guidelines for the draft:
-
-- In Node-based workflows, always use `npm ci` over `npm install` to ensure sync with lockfile.
-- Always create composite actions for generic parts of the job (i.e. comments to PR).
-- Attach environment variables to steps via `env:` key.
-
-## 3. Workflow Refinement
-
-1. After generating the initial version of the workflow, extract the public actions (i.e. checkout, setup-node) used within the it and list them. Be explicit.
-2. For each action always use <tool>"Run Terminal"</tool> to see what is the most up-to-date version with the following command:
+- Check if `package.json` exists in project root and summarize key scripts
+- Check if `.nvmrc` exists in project root
+- Check if `.env.example` exists in project root to identify key `env:` variables
+- Always use `git branch` to verify whether we use `main` or `master` branch
+- Always use `env:` variables and secrets attached to jobs instead of global workflows
+- Always use `npm ci` for Node-based dependency setup
+- Extract common steps into composite actions in separate files
+- Once you're done, as a final step conduct the following: for each public action always use <tool>"Run Terminal"</tool> to see what is the most up-to-date version (use only major version):
 
 ```bash
 curl -s https://api.github.com/repos/{owner}/{repo}/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([0-9]+).*/\1/'
 ```
-
-3. Make sure you executed this command. Update Github Actions Script only by applying MAJOR version number.
-
-### Summarization
-
-At the end, summarize further steps for me around required environments, secrets or env variables.
-
-- For example: 'Verify that environment 'XYZ' exists
-- Ensure secrets '...' added to environment 'XYZ'
