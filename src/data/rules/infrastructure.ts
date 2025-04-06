@@ -7,14 +7,15 @@ import { type LibraryRulesMap } from './types';
 export const infrastructureRules: LibraryRulesMap = {
   // CI/CD libraries
   [Library.GITHUB_ACTIONS]: [
-    'Use actions/checkout@v4 to checkout code',
-    'Use actions/setup-node@v4 to setup Node.js',
-    'Use actions/setup-python@v5 to setup Python',
-    'Use actions/setup-java@v4 to setup Java',
-    'Use actions/setup-go@v5 to setup Go',
-    'Use composite actions to reuse workflow steps across different workflows',
-    'Implement caching for dependencies to speed up builds',
-    'Use matrix builds for testing across {{platform_versions}}',
+    'Check if `package.json` exists in project root and summarize key scripts',
+    'Check if `.nvmrc` exists in project root',
+    'Check if `.env.example` exists in project root to identify key `env:` variables',
+    'Always use terminal command:`git branch` to verify whether we use `main` or `master` branch',
+    'Always use `env:` variables and secrets attached to jobs instead of global workflows',
+    'Always use `npm ci` for Node-based dependency setup',
+    'Extract common steps into composite actions in separate files',
+    'Once you\'re done, as a final step conduct the following: for each public action always use <tool>"Run Terminal"</tool> to see what is the most up-to-date version (use only major version) - extract tag_name from the response:',
+    'curl -s https://api.github.com/repos/{owner}/{repo}/releases/latest',
   ],
   [Library.JENKINS]: [
     'Use declarative pipelines with Jenkinsfile instead of freestyle jobs',
