@@ -26,5 +26,6 @@ pnpm-debug.log*
 
 playwright/.auth
 test-results
+coverage
 playwright-report/*
 playwright-report/index.html
