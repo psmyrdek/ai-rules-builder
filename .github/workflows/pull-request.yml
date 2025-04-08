@@ -73,15 +73,18 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Create .env.test file
+        run: |
+          echo "PUBLIC_ENV_NAME=${{ secrets.PUBLIC_ENV_NAME }}" > .env.integration
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env.integration
+          echo "SUPABASE_PUBLIC_KEY=${{ secrets.SUPABASE_PUBLIC_KEY }}" >> .env.integration
+          echo "SUPABASE_SECRET_KEY=${{ secrets.SUPABASE_SECRET_KEY }}" >> .env.integration
+          echo "E2E_USERNAME_ID=${{ secrets.E2E_USERNAME_ID }}" >> .env.integration
+          echo "E2E_USERNAME=${{ secrets.E2E_USERNAME }}" >> .env.integration
+          echo "E2E_PASSWORD=${{ secrets.E2E_PASSWORD }}" >> .env.integration
+
       - name: Run E2E tests
         run: npm run test:e2e
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_PUBLIC_KEY: ${{ secrets.SUPABASE_PUBLIC_KEY }}
-          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
-          E2E_USERNAME_ID: ${{ secrets.E2E_USERNAME_ID }}
-          E2E_USERNAME: ${{ secrets.E2E_USERNAME }}
-          E2E_PASSWORD: ${{ secrets.E2E_PASSWORD }}
 
       - name: Upload E2E test artifacts
         uses: actions/upload-artifact@v4
