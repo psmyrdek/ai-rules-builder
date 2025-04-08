@@ -40,3 +40,5 @@ Testing:
 
   - ESLint dla lintowania kodu
   - Prettier dla formatowania kodu
+
+- Zależności: `package.json`
