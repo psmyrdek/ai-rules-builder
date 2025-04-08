@@ -1,5 +1,6 @@
 import type { AstroCookies } from 'astro';
 import { createServerClient, type CookieOptionsWithName } from '@supabase/ssr';
+import { SUPABASE_URL, SUPABASE_PUBLIC_KEY } from 'astro:env/server';
 
 export const cookieOptions: CookieOptionsWithName = {
   path: '/',
@@ -19,24 +20,20 @@ export const createSupabaseServerInstance = (context: {
   headers: Headers;
   cookies: AstroCookies;
 }) => {
-  const supabase = createServerClient(
-    import.meta.env.SUPABASE_URL!,
-    import.meta.env.SUPABASE_PUBLIC_KEY!,
-    {
-      cookieOptions,
-      cookies: {
-        getAll() {
-          const cookieHeader = context.headers.get('Cookie') ?? '';
-          return parseCookieHeader(cookieHeader);
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            context.cookies.set(name, value, options),
-          );
-        },
+  const supabase = createServerClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
+    cookieOptions,
+    cookies: {
+      getAll() {
+        const cookieHeader = context.headers.get('Cookie') ?? '';
+        return parseCookieHeader(cookieHeader);
+      },
+      setAll(cookiesToSet) {
+        cookiesToSet.forEach(({ name, value, options }) =>
+          context.cookies.set(name, value, options),
+        );
       },
     },
-  );
+  });
 
   return supabase;
 };

@@ -20,8 +20,8 @@ type FeatureConfig = {
 
 const featureFlags: FeatureConfig = {
   local: {
-    auth: false,
-    collections: false,
+    auth: true,
+    collections: true,
   },
   integration: {
     auth: true,

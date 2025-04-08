@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
@@ -11,18 +11,21 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-
+  env: {
+    schema: {
+      SUPABASE_URL: envField.string({ context: 'server', access: 'secret' }),
+      SUPABASE_PUBLIC_KEY: envField.string({ context: 'server', access: 'secret' }),
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
     ssr: {
       noExternal: [/^d3.*$/, /^@nivo.*$/],
     },
   },
-
   devToolbar: {
     enabled: false,
   },
-
   integrations: [react()],
   adapter: cloudflare(),
 });
