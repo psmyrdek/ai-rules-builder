@@ -49,7 +49,6 @@ function getCurrentEnv(): Env | null {
  */
 export function isFeatureEnabled(feature: FeatureFlag): boolean {
   const env = getCurrentEnv();
-  console.log(`isFeatureEnabled('${feature}') called in env '${env}'`);
   if (!env) {
     return false;
   }
