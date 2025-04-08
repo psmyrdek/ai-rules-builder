@@ -19,6 +19,7 @@ export const onRequest = defineMiddleware(
         cookies,
         headers: request.headers,
       });
+      console.info('Supabase client initialized.');
 
       // Attach supabase client to locals
       locals.supabase = supabase;
