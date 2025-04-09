@@ -3,7 +3,7 @@ import { defineConfig, envField } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
-import cloudflare from '@astrojs/cloudflare';
+import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,5 +27,7 @@ export default defineConfig({
     enabled: false,
   },
   integrations: [react()],
-  adapter: cloudflare(),
+  adapter: node({
+    mode: 'standalone',
+  }),
 });
