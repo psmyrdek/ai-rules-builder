@@ -20,7 +20,6 @@ interface ImportMetaEnv {
   readonly PUBLIC_ENV_NAME: Env;
   readonly SUPABASE_URL: string;
   readonly SUPABASE_PUBLIC_KEY: string;
-  readonly SUPABASE_SECRET_KEY: string;
 }
 
 interface ImportMeta {
