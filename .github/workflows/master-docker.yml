@@ -99,5 +99,4 @@ jobs:
 
       - name: Deploy to DigitalOcean App Platform
         run: |
-          doctl apps create-deployment ${{ secrets.DIGITALOCEAN_APP_NAME }} \
-            --image 10xrules=ghcr.io/psmyrdek/10xrules:sha-${{ github.sha }}
+          doctl apps create-deployment ${{ secrets.DIGITALOCEAN_APP_ID }}
