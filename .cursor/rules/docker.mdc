@@ -7,11 +7,15 @@ alwaysApply: false
 
 ## Dockerfile Structure
 
+### Naming and Conventions
+- Always use UPPERCASED keywords
+
 ### Base Image Selection
 - Always use specific version tags matching tech stack (e.g., `node:22-alpine` not `node:latest`)
+- Use images compatible with CI/CD & Github Actions runner - `ubuntu-latest`
 - Choose slim/alpine variants for production images
-- Use multi-stage builds to separate build and runtime environments
-- Analyze deps and scripts that may cause issues when switching between build and runtime
+- Use two-stage builds to separate build and runtime environments
+- Analyze deps and scripts that may cause issues when switching between build and runtime step (i.e. devDependency required in "prepare", but not installed)
 
 ### Instruction Order
 1. FROM - Base image definition
@@ -52,6 +56,7 @@ alwaysApply: false
 - Add metadata with labels
 - Enable BuildKit for better performance
 - Always build app in production mode based on provided tech stack
+- Ask if `node_modules` directory is required in runtime
 
 ### Running
 - Set appropriate resource limits
@@ -67,4 +72,4 @@ alwaysApply: false
 
 ## Networking
 
-- Adjust app to use HOST 0.0.0.0 and PORT 8080 (for Docker Build / Run)
+- Adjust app to use HOST 0.0.0.0 and PORT 8080 (for Docker Build / Run) - default to currently used value
