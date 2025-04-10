@@ -86,19 +86,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  deploy:
-    name: Deploy to DigitalOcean
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+  # deploy:
+  #   name: Deploy to DigitalOcean
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   environment: production
+  #   steps:
+  #     - name: Install doctl
+  #       uses: digitalocean/action-doctl@v2
+  #       with:
+  #         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Deploy to DigitalOcean App Platform
-        run: |
-          doctl apps create-deployment ${{ secrets.DIGITALOCEAN_APP_NAME }} \
-            --image-registry-type GHCR \
-            --image 10xrules=registry.digitalocean.com/psmyrdek/10xrules:sha-${{ github.sha }}
+  #     - name: Deploy to DigitalOcean App Platform
+  #       run: |
+  #         doctl apps create-deployment ${{ secrets.DIGITALOCEAN_APP_NAME }} \
+  #           --image-registry-type GHCR \
+  #           --image 10xrules=registry.digitalocean.com/psmyrdek/10xrules:sha-${{ github.sha }}
