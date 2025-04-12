@@ -12,7 +12,12 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   if (token_hash && type) {
     const supabase = createSupabaseServerInstance({ cookies, headers: request.headers });
 
-    const { error } = await supabase.auth.verifyOtp({
+    console.log('Initializing OTP verification');
+
+    const {
+      error,
+      data: { user },
+    } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     });
@@ -23,6 +28,7 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
     }
 
     if (!error) {
+      console.log('OTP verified successfully - user:', user?.email, 'redirecting to', next);
       return redirect(next);
     }
   }
