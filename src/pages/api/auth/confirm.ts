@@ -1,25 +1,25 @@
-import { type EmailOtpType } from '@supabase/supabase-js';
 import { type APIRoute } from 'astro';
 
-import { createSupabaseServerInstance } from '@/db/supabase.client';
+import { createSupabaseAdminInstance } from '@/db/supabase.client';
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const requestUrl = new URL(request.url);
-  const token_hash = requestUrl.searchParams.get('token_hash');
-  const type = requestUrl.searchParams.get('type') as EmailOtpType | null;
+  const token = requestUrl.searchParams.get('token');
+  const email = requestUrl.searchParams.get('email');
   const next = requestUrl.searchParams.get('next') || '/';
 
-  if (token_hash && type) {
-    const supabase = createSupabaseServerInstance({ cookies, headers: request.headers });
+  if (token && email) {
+    const supabaseAdmin = createSupabaseAdminInstance({ cookies, headers: request.headers });
 
-    console.log('Initializing OTP verification');
+    console.log('Initializing OTP verification from', email);
 
     const {
       error,
       data: { user },
-    } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
+    } = await supabaseAdmin.auth.verifyOtp({
+      token,
+      email,
+      type: 'email',
     });
 
     if (error) {
