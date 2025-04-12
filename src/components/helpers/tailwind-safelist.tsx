@@ -268,6 +268,7 @@ export const TailwindSafelist: React.FC = () => {
       <div className="bg-gray-700/60"></div>
       <div className="bg-gray-800/70"></div>
       <div className="hover:bg-gray-700/70"></div>
+      <div className="grid-cols-3"></div>
     </div>
   );
 };
