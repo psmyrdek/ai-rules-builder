@@ -35,7 +35,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit: 
     return (
       <div className="text-center space-y-4">
         <div className="text-green-400">
-          If an account exists for {errors.email}, you will receive password reset instructions.
+          You will receive an email with instructions to reset your password.
         </div>
         <a
           href="/auth/login"
