@@ -23,6 +23,7 @@ export const onRequest = defineMiddleware(
         headers: request.headers,
       });
       console.info('Supabase client initialized.');
+      console.log('Request URL:', url.pathname);
 
       // Attach supabase client to locals
       locals.supabase = supabase;
@@ -31,6 +32,8 @@ export const onRequest = defineMiddleware(
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
+      console.log('user', user?.email);
 
       // Always set user in locals if available, regardless of path
       if (user) {

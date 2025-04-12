@@ -1,7 +1,7 @@
 import { type EmailOtpType } from '@supabase/supabase-js';
 import { type APIRoute } from 'astro';
 
-import { createSupabaseServerInstance } from '../../../db/supabase.client';
+import { createSupabaseServerInstance } from '@/db/supabase.client';
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const requestUrl = new URL(request.url);
@@ -16,6 +16,11 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
       type,
       token_hash,
     });
+
+    if (error) {
+      console.error('Error verifying OTP:', error);
+      return redirect('/auth/reset-password?error=invalid-token');
+    }
 
     if (!error) {
       return redirect(next);
