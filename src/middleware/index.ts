@@ -10,6 +10,7 @@ const PUBLIC_PATHS = [
   '/api/auth/login',
   '/api/auth/signup',
   '/api/auth/reset-password',
+  '/api/auth/confirm',
   '/privacy/pl',
   '/privacy/en',
 ];
