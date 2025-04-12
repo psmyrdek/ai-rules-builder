@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transitions } from '../../styles/theme';
@@ -7,12 +7,9 @@ import { resetPasswordSchema } from '../../types/auth';
 import type { ResetPasswordFormData } from '../../types/auth';
 import { useAuth } from '../../hooks/useAuth';
 
-interface ResetPasswordFormProps {
-  onSubmit: (email: string) => void;
-}
-
-export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit: onSubmitProp }) => {
+export const ResetPasswordForm: React.FC = () => {
   const { resetPassword, error: apiError, isLoading } = useAuth();
+  const [error, setError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -21,10 +18,19 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit: 
     resolver: zodResolver(resetPasswordSchema),
   });
 
+  useEffect(() => {
+    // Check for error query parameter on component initialization
+    const params = new URLSearchParams(window.location.search);
+    const errorParam = params.get('error');
+
+    if (errorParam === 'invalid-token') {
+      setError('The reset password link is invalid or has expired. Please request a new one.');
+    }
+  }, []);
+
   const onSubmit = async (data: ResetPasswordFormData) => {
     try {
       await resetPassword(data);
-      onSubmitProp(data.email);
     } catch (error) {
       console.error(error);
       // Error is handled by useAuth hook
@@ -52,9 +58,9 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit: 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {apiError && (
+      {(apiError || error) && (
         <div className="p-3 mb-4 text-sm text-red-500 bg-red-100 rounded-md dark:bg-red-900/20">
-          {apiError}
+          {apiError || error}
         </div>
       )}
 

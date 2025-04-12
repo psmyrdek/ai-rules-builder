@@ -8,9 +8,8 @@ import type { UpdatePasswordFormData } from '../../types/auth';
 import { useAuth } from '../../hooks/useAuth';
 
 export const UpdatePasswordForm: React.FC = () => {
-  // Use the updatePassword function from the hook
   const { updatePassword, error: apiError, isLoading } = useAuth();
-  const [isSuccess, setIsSuccess] = useState(false); // State for success message
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const {
     register,
@@ -21,13 +20,12 @@ export const UpdatePasswordForm: React.FC = () => {
   });
 
   const onSubmit = async (data: UpdatePasswordFormData) => {
-    setIsSuccess(false); // Reset success state on new submission
+    setIsSuccess(false); // Update password success state on new submission
     try {
       await updatePassword(data);
       setIsSuccess(true);
     } catch (error) {
       console.error('Update password error:', error);
-      // Error is handled by useAuth hook and displayed via apiError
     }
   };
 

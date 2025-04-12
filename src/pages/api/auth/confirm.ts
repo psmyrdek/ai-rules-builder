@@ -1,7 +1,7 @@
 import { type EmailOtpType } from '@supabase/supabase-js';
 import { type APIRoute } from 'astro';
 
-import { createSupabaseAdminInstance } from '../../../db/supabase.client';
+import { createSupabaseServerInstance } from '../../../db/supabase.client';
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const requestUrl = new URL(request.url);
@@ -10,7 +10,7 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   const next = requestUrl.searchParams.get('next') || '/';
 
   if (token_hash && type) {
-    const supabase = createSupabaseAdminInstance({ cookies, headers: request.headers });
+    const supabase = createSupabaseServerInstance({ cookies, headers: request.headers });
 
     const { error } = await supabase.auth.verifyOtp({
       type,
