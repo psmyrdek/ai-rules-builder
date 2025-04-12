@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { createSupabaseServerInstance } from '../../../db/supabase.client';
+import { createSupabaseAdminInstance } from '../../../db/supabase.client';
 import { isFeatureEnabled } from '../../../features/featureFlags';
 
 export const POST: APIRoute = async ({ request, cookies, url }) => {
@@ -19,7 +19,7 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
       });
     }
 
-    const supabase = createSupabaseServerInstance({ cookies, headers: request.headers });
+    const supabase = createSupabaseAdminInstance({ cookies, headers: request.headers });
 
     const redirectTo = `${url.origin}/auth/update-password`;
 
