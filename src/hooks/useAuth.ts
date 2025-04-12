@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import type { LoginFormData, SignupFormData, ResetPasswordFormData } from '../types/auth';
+import type {
+  LoginFormData,
+  SignupFormData,
+  ResetPasswordFormData,
+  UpdatePasswordFormData,
+} from '../types/auth';
 import { authService } from '../services/auth';
 
 interface User {
@@ -32,10 +37,14 @@ export const useAuth = () => {
   const resetPassword = (data: ResetPasswordFormData) =>
     handleAuthAction(authService.resetPassword, data);
 
+  const updatePassword = (data: UpdatePasswordFormData) =>
+    handleAuthAction(authService.updatePassword, data);
+
   return {
     login,
     signup,
     resetPassword,
+    updatePassword,
     error,
     isLoading,
   };

@@ -1,4 +1,9 @@
-import type { LoginFormData, SignupFormData, ResetPasswordFormData } from '../types/auth';
+import type {
+  LoginFormData,
+  SignupFormData,
+  ResetPasswordFormData,
+  UpdatePasswordFormData,
+} from '../types/auth';
 
 class AuthError extends Error {
   constructor(
@@ -40,6 +45,15 @@ export const authService = {
 
   resetPassword: async (data: ResetPasswordFormData) => {
     const response = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return handleResponse(response);
+  },
+
+  updatePassword: async (data: UpdatePasswordFormData) => {
+    const response = await fetch('/api/auth/update-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
