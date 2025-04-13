@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
+import { createSupabaseAdminInstance } from '@/db/supabase.client';
 
-export const POST: APIRoute = async ({ request, url, locals }) => {
+export const POST: APIRoute = async ({ request, url, cookies }) => {
   try {
     const { email } = await request.json();
 
@@ -10,7 +11,9 @@ export const POST: APIRoute = async ({ request, url, locals }) => {
       });
     }
 
-    const { error } = await locals.supabase.auth.resetPasswordForEmail(email, {
+    const supabase = createSupabaseAdminInstance({ cookies, headers: request.headers });
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${url.origin}/auth/update-password`,
     });
 
