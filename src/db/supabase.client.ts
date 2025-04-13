@@ -19,12 +19,14 @@ export const createSupabaseServerInstance = (context: {
       // @ts-expect-error - correct implementation per Supabase docs
       getAll() {
         const cookieHeader = context.headers.get('Cookie') ?? '';
+        console.log(JSON.stringify(cookieHeader));
         return parseCookieHeader(cookieHeader);
       },
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) =>
-          context.cookies.set(name, value, options),
-        );
+        cookiesToSet.forEach(({ name, value, options }) => {
+          context.cookies.set(name, value, options);
+          console.log(JSON.stringify(context.cookies));
+        });
       },
     },
   });
