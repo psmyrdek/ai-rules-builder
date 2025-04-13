@@ -7,10 +7,10 @@ const PUBLIC_PATHS = [
   '/auth/login',
   '/auth/signup',
   '/auth/reset-password',
+  '/auth/update-password',
   '/api/auth/login',
   '/api/auth/signup',
   '/api/auth/reset-password',
-  '/api/auth/confirm',
   '/privacy/pl',
   '/privacy/en',
 ];
@@ -18,16 +18,10 @@ const PUBLIC_PATHS = [
 export const onRequest = defineMiddleware(
   async ({ locals, cookies, url, request, redirect }, next) => {
     try {
-      console.log('Initializing middleware - onRequest');
-      console.log('Cookies:', JSON.stringify(cookies));
-      console.log('Headers:', JSON.stringify(request.headers));
-
       const supabase = createSupabaseServerInstance({
         cookies,
         headers: request.headers,
       });
-      console.info('Supabase client initialized.');
-      console.log('Request URL:', url.pathname);
 
       // Attach supabase client to locals
       locals.supabase = supabase;
@@ -36,8 +30,6 @@ export const onRequest = defineMiddleware(
       const {
         data: { user },
       } = await supabase.auth.getUser();
-
-      console.log('user', user?.email);
 
       // Always set user in locals if available, regardless of path
       if (user) {
@@ -49,7 +41,6 @@ export const onRequest = defineMiddleware(
 
       // Skip auth check for public paths
       if (PUBLIC_PATHS.includes(url.pathname)) {
-        console.log('Skipping auth check for public path:', url.pathname);
         return next();
       }
 
