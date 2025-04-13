@@ -8,7 +8,7 @@ import { isFeatureEnabled } from '../features/featureFlags';
 
 export default function TwoPane() {
   const { activePanel, isSidebarOpen, toggleSidebar, setSidebarOpen } = useNavigationStore();
-  const isCollectionsEnabled = isFeatureEnabled('collections');
+  const isCollectionsEnabled = isFeatureEnabled('authOnUI');
 
   // Sync the local state with the store on component mount
   useEffect(() => {

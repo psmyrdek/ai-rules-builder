@@ -11,7 +11,7 @@ export type Env = 'local' | 'integration' | 'prod';
 /**
  * Available feature flags in the application
  */
-export type FeatureFlag = 'auth' | 'collections';
+export type FeatureFlag = 'auth' | 'collections' | 'authOnUI';
 type FeatureConfig = {
   [E in Env]: {
     [K in FeatureFlag]: boolean;
@@ -22,14 +22,17 @@ const featureFlags: FeatureConfig = {
   local: {
     auth: true,
     collections: true,
+    authOnUI: true,
   },
   integration: {
     auth: true,
     collections: true,
+    authOnUI: true,
   },
   prod: {
     auth: true,
     collections: true,
+    authOnUI: false,
   },
 };
 

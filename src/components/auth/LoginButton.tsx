@@ -6,7 +6,7 @@ export default function LoginButton() {
   const { user, logout } = useAuthStore();
 
   // If auth feature is disabled, render nothing
-  if (!isFeatureEnabled('auth')) {
+  if (!isFeatureEnabled('authOnUI')) {
     return null;
   }
 

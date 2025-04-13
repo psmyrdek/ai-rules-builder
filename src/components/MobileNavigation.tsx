@@ -29,7 +29,7 @@ NavigationItem.displayName = 'NavigationItem';
 
 export const MobileNavigation: React.FC = () => {
   const { activePanel, setActivePanel } = useNavigationStore();
-  const isCollectionsEnabled = isFeatureEnabled('collections');
+  const isCollectionsEnabled = isFeatureEnabled('authOnUI');
 
   // Memoize panel change handlers to prevent unnecessary re-renders
   const handleCollectionsClick = useCallback(() => setActivePanel('collections'), [setActivePanel]);
