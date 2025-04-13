@@ -41,6 +41,7 @@ export const onRequest = defineMiddleware(
 
       // Skip auth check for public paths
       if (PUBLIC_PATHS.includes(url.pathname)) {
+        console.log('Skipping auth check for public path:', url.pathname);
         return next();
       }
 
@@ -62,7 +63,7 @@ export const onRequest = defineMiddleware(
 
       return next();
     } catch (error) {
-      console.error('Error in middleware:', error);
+      console.error('Error in middleware:', error instanceof Error ? error.message : error);
       return next();
     }
   },
