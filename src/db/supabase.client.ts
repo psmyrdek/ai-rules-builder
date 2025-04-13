@@ -16,7 +16,7 @@ export const createSupabaseServerInstance = (context: {
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookieOptions,
     cookies: {
-      // @ts-expect-error - per Supabase docs
+      // @ts-expect-error - correct implementation per Supabase docs
       getAll() {
         const cookieHeader = context.headers.get('Cookie') ?? '';
         return parseCookieHeader(cookieHeader);
@@ -39,6 +39,7 @@ export const createSupabaseAdminInstance = (context: {
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     cookieOptions,
     cookies: {
+      // @ts-expect-error - correct implementation per Supabase docs
       getAll() {
         const cookieHeader = context.headers.get('Cookie') ?? '';
         return parseCookieHeader(cookieHeader);
