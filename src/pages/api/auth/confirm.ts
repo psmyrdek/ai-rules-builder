@@ -6,26 +6,21 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   console.log('Confirming OTP');
 
   const requestUrl = new URL(request.url);
-  const token = requestUrl.searchParams.get('token');
-  const email = requestUrl.searchParams.get('email');
-  const next = requestUrl.searchParams.get('next') || '/';
+  const tokenHash = requestUrl.searchParams.get('token_hash');
 
-  console.log('Token:', token);
-  console.log('Email:', email);
-  console.log('Next:', next);
+  console.log('Token:', tokenHash);
 
-  if (token && email) {
+  if (tokenHash) {
     const supabaseAdmin = createSupabaseAdminInstance({ cookies, headers: request.headers });
 
-    console.log('Initializing OTP verification from', email);
+    console.log('Initializing OTP verification with hash', tokenHash);
 
     const {
       error,
       data: { user },
     } = await supabaseAdmin.auth.verifyOtp({
-      token,
-      email,
-      type: 'email',
+      token_hash: tokenHash,
+      type: 'recovery',
     });
 
     if (error) {
@@ -34,8 +29,8 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
     }
 
     if (!error) {
-      console.log('OTP verified successfully - user:', user?.email, 'redirecting to', next);
-      return redirect(next);
+      console.log('OTP verified successfully - user:', user?.email);
+      return redirect('/auth/update-password');
     }
   }
 

@@ -19,8 +19,8 @@ export const onRequest = defineMiddleware(
   async ({ locals, cookies, url, request, redirect }, next) => {
     try {
       console.log('Initializing middleware - onRequest');
-      console.log('Cookies:', cookies);
-      console.log('Headers:', request.headers);
+      console.log('Cookies:', JSON.stringify(cookies));
+      console.log('Headers:', JSON.stringify(request.headers));
 
       const supabase = createSupabaseServerInstance({
         cookies,
