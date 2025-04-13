@@ -112,7 +112,9 @@ export const CollectionsList: React.FC = () => {
         >
           <div className="flex items-center justify-center gap-2 text-gray-400 group-hover:text-blue-400">
             <Plus className="size-5" />
-            <span>Create new collection</span>
+            <span>
+              {selectedLibraries.length > 0 ? 'Create new collection' : 'Create empty collection'}
+            </span>
           </div>
         </button>
       </div>
