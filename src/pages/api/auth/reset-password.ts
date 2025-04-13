@@ -1,15 +1,6 @@
 import type { APIRoute } from 'astro';
-import { createSupabaseAdminInstance } from '../../../db/supabase.client';
-import { isFeatureEnabled } from '../../../features/featureFlags';
 
-export const POST: APIRoute = async ({ request, cookies, url }) => {
-  // Check if auth feature is enabled
-  if (!isFeatureEnabled('resetPassword')) {
-    return new Response(JSON.stringify({ error: 'Password reset is currently disabled' }), {
-      status: 403,
-    });
-  }
-
+export const POST: APIRoute = async ({ request, url, locals }) => {
   try {
     const { email } = await request.json();
 
@@ -19,12 +10,8 @@ export const POST: APIRoute = async ({ request, cookies, url }) => {
       });
     }
 
-    const supabase = createSupabaseAdminInstance({ cookies, headers: request.headers });
-
-    const redirectTo = `${url.origin}/auth/update-password`;
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectTo,
+    const { error } = await locals.supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${url.origin}/auth/update-password`,
     });
 
     // Don't disclose whether the email exists or not for security reasons.

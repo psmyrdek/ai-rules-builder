@@ -1,8 +1,7 @@
 import type { APIRoute } from 'astro';
-import { createSupabaseServerInstance } from '../../../db/supabase.client';
 import { isFeatureEnabled } from '../../../features/featureFlags';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
+export const POST: APIRoute = async ({ locals }) => {
   // Check if auth feature is enabled
   if (!isFeatureEnabled('auth')) {
     return new Response(JSON.stringify({ error: 'Authentication is currently disabled' }), {
@@ -11,12 +10,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   }
 
   try {
-    const supabase = createSupabaseServerInstance({
-      cookies,
-      headers: request.headers,
-    });
-
-    const { error } = await supabase.auth.signOut();
+    const { error } = await locals.supabase.auth.signOut();
 
     if (error) {
       return new Response(JSON.stringify({ error: error.message }), {

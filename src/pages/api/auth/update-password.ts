@@ -1,15 +1,6 @@
 import type { APIRoute } from 'astro';
-import { createSupabaseAdminInstance } from '../../../db/supabase.client';
-import { isFeatureEnabled } from '../../../features/featureFlags';
 
-export const POST: APIRoute = async ({ request, cookies }) => {
-  // Check if auth feature is enabled
-  if (!isFeatureEnabled('resetPassword')) {
-    return new Response(JSON.stringify({ error: 'Password update is currently disabled' }), {
-      status: 403,
-    });
-  }
-
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { password, confirmPassword } = await request.json();
 
@@ -19,9 +10,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       });
     }
 
-    const supabase = createSupabaseAdminInstance({ cookies, headers: request.headers });
-
-    const { error } = await supabase.auth.updateUser({
+    const { error } = await locals.supabase.auth.updateUser({
       password,
     });
 
@@ -33,8 +22,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       status: 200,
     });
   } catch (err) {
-    console.error('Reset password endpoint error:', err);
-    // Handle JSON parsing errors or other unexpected issues
+    console.error('Update password endpoint error:', err instanceof Error ? err.message : err);
     if (err instanceof SyntaxError) {
       return new Response(JSON.stringify({ error: 'Invalid request body' }), { status: 400 });
     }
