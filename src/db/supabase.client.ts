@@ -16,6 +16,7 @@ export const createSupabaseServerInstance = (context: {
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_PUBLIC_KEY, {
     cookieOptions,
     cookies: {
+      // @ts-expect-error - per Supabase docs
       getAll() {
         const cookieHeader = context.headers.get('Cookie') ?? '';
         return parseCookieHeader(cookieHeader);
