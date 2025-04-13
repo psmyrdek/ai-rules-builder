@@ -3,10 +3,16 @@ import { type APIRoute } from 'astro';
 import { createSupabaseAdminInstance } from '@/db/supabase.client';
 
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
+  console.log('Confirming OTP');
+
   const requestUrl = new URL(request.url);
   const token = requestUrl.searchParams.get('token');
   const email = requestUrl.searchParams.get('email');
   const next = requestUrl.searchParams.get('next') || '/';
+
+  console.log('Token:', token);
+  console.log('Email:', email);
+  console.log('Next:', next);
 
   if (token && email) {
     const supabaseAdmin = createSupabaseAdminInstance({ cookies, headers: request.headers });

@@ -1,4 +1,4 @@
-import { createSupabaseServerInstance } from '../db/supabase.client';
+import { createSupabaseServerInstance } from '@/db/supabase.client';
 import { defineMiddleware } from 'astro:middleware';
 
 // Public paths that don't require authentication
@@ -18,6 +18,10 @@ const PUBLIC_PATHS = [
 export const onRequest = defineMiddleware(
   async ({ locals, cookies, url, request, redirect }, next) => {
     try {
+      console.log('Initializing middleware - onRequest');
+      console.log('Cookies:', cookies);
+      console.log('Headers:', request.headers);
+
       const supabase = createSupabaseServerInstance({
         cookies,
         headers: request.headers,
@@ -45,6 +49,7 @@ export const onRequest = defineMiddleware(
 
       // Skip auth check for public paths
       if (PUBLIC_PATHS.includes(url.pathname)) {
+        console.log('Skipping auth check for public path:', url.pathname);
         return next();
       }
 
