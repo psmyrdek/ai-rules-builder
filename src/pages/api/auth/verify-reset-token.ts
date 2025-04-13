@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
+import { createSupabaseAdminInstance } from '@/db/supabase.client';
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const { token_hash } = await request.json();
 
@@ -10,10 +11,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
+    const supabase = createSupabaseAdminInstance({ cookies, headers: request.headers });
+
     const {
       error,
       data: { user },
-    } = await locals.supabase.auth.verifyOtp({
+    } = await supabase.auth.verifyOtp({
       token_hash,
       type: 'recovery',
     });
